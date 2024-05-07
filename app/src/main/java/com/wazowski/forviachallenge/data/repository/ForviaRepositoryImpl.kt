@@ -3,7 +3,7 @@ package com.wazowski.forviachallenge.data.repository
 import com.wazowski.forviachallenge.common.Resource
 import com.wazowski.forviachallenge.data.mappers.toForviaAppList
 import com.wazowski.forviachallenge.data.remote.*
-import com.wazowski.forviachallenge.domain.forvia.ForviaApp
+import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.domain.repository.ForviaRepository
 import javax.inject.Inject
 

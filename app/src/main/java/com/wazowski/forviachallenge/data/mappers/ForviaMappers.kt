@@ -1,7 +1,7 @@
 package com.wazowski.forviachallenge.data.mappers
 
 import com.wazowski.forviachallenge.data.remote.*
-import com.wazowski.forviachallenge.domain.forvia.ForviaApp
+import com.wazowski.forviachallenge.domain.model.ForviaApp
 
 fun Datasets.toForviaAppList(): List<ForviaApp> {
     return this.all.data.list.map { data ->

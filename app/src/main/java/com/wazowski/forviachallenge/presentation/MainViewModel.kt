@@ -3,7 +3,7 @@ package com.wazowski.forviachallenge.presentation
 import android.util.Log
 import androidx.lifecycle.*
 import com.wazowski.forviachallenge.common.Resource
-import com.wazowski.forviachallenge.domain.forvia.ForviaApp
+import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.domain.repository.ForviaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

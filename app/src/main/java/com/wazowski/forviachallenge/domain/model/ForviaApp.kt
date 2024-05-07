@@ -1,4 +1,4 @@
-package com.wazowski.forviachallenge.domain.forvia
+package com.wazowski.forviachallenge.domain.model
 
 data class ForviaApp(
     val id: Int,
