@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.random.Random
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -18,7 +19,8 @@ class MainViewModel @Inject constructor(
 
     fun getAppsList() {
         viewModelScope.launch {
-            when (val result = repository.getAppsList()) {
+            // TODO: Remove this after finishing implementation
+            when (val result = repository.getAppsList(offset = Random.nextInt(0, 60001))) {
                 is Resource.Success -> {
                     result.data?.let {
                         appsList.value = result.data
