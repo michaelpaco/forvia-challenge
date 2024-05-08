@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.R
-import com.wazowski.forviachallenge.common.appList
+import com.wazowski.forviachallenge.common.allApps
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -80,7 +80,7 @@ fun AppListItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Mod
 @Composable
 @Preview
 fun AppListItemPreview() {
-    val app = appList.first()
+    val app = allApps.first()
 
     ForviaChallengeTheme {
         Surface(

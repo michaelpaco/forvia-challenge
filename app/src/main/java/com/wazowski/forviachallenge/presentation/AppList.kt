@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.wazowski.forviachallenge.common.appList
+import com.wazowski.forviachallenge.common.allApps
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -30,7 +30,7 @@ fun AppList(apps: List<ForviaApp>, onCardClick: (Int) -> Unit) {
 fun AppListPreview() {
     ForviaChallengeTheme {
         Surface {
-            AppList(apps = appList, onCardClick = {})
+            AppList(apps = allApps, onCardClick = {})
         }
     }
 }
