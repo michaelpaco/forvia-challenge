@@ -23,3 +23,22 @@ fun Datasets.toForviaAppList(): List<ForviaApp> {
         )
     }
 }
+
+fun ForviaAppDto.toForviaApp(): ForviaApp {
+    return ForviaApp(
+        id = this.id,
+        name = this.name,
+        packageName = this.packageName,
+        storeId = this.storeId,
+        storeName = this.storeName,
+        vername = this.vername,
+        vercode = this.vercode,
+        downloads = this.downloads,
+        added = this.added,
+        modified = this.modified,
+        updated = this.updated,
+        rating = this.rating,
+        icon = this.icon,
+        graphic = this.graphic,
+    )
+}

@@ -14,7 +14,7 @@ data class Data(
     @Json(name = "limit") val limit: Int,
     @Json(name = "next") val next: Int,
     @Json(name = "hidden") val hidden: Int,
-    @Json(name = "list") val list: List<ForviaApp>
+    @Json(name = "list") val list: List<ForviaAppDto>
 )
 
 @JsonClass(generateAdapter = true)
@@ -38,7 +38,7 @@ data class All(
 )
 
 @JsonClass(generateAdapter = true)
-data class ForviaApp(
+data class ForviaAppDto(
     @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,
     @Json(name = "package") val packageName: String,
