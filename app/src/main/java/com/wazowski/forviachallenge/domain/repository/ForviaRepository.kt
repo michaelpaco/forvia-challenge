@@ -8,4 +8,5 @@ interface ForviaRepository {
     suspend fun getAppsList(offset: Int = 0): Resource<List<ForviaApp>>
     suspend fun getDbAppsList(): Resource<Flow<List<ForviaApp>>>
     suspend fun insertAll(list: List<ForviaApp>): Resource<Unit>
+    suspend fun deleteAll(): Resource<Unit>
 }

@@ -51,4 +51,13 @@ class ForviaRepositoryImpl @Inject constructor(
             Resource.Error(e.message ?: "An unknown error occurred.")
         }
     }
+    override suspend fun deleteAll(): Resource<Unit> {
+        return try {
+            forviaAppDao.deleteAll()
+            Resource.Success()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Error(e.message ?: "An unknown error occurred.")
+        }
+    }
 }

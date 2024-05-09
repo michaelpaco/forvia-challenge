@@ -82,6 +82,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.ui:ui-text-google-fonts")
+    implementation("androidx.compose.material:material-icons-extended")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.activity:activity-compose:1.9.0")
 
@@ -124,7 +125,6 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
     androidTestImplementation("androidx.arch.core:core-testing:2.2.0")
-
 
     // For instrumented tests.
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hilt_version")

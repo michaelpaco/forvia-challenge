@@ -11,4 +11,7 @@ interface ForviaAppDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(apps: List<ForviaApp>)
+
+    @Query("DELETE FROM apps")
+    suspend fun deleteAll()
 }
