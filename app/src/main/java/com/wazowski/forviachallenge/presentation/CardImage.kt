@@ -15,13 +15,15 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
 fun CardImage(imageUrl: Any?) {
-    SubcomposeAsyncImage(modifier = Modifier.fillMaxHeight(),
-        contentScale = ContentScale.Fit,
+    SubcomposeAsyncImage(
+        modifier = Modifier.fillMaxHeight(),
+        contentScale = ContentScale.Crop,
         model = imageUrl,
         loading = {
             Column(
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 CircularProgressIndicator()
             }
