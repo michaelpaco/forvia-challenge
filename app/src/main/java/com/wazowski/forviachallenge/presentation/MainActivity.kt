@@ -75,6 +75,10 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 }
+
+                LaunchedEffect(key1 = isConnected) {
+                    viewModel.getAppsList()
+                }
             }
         }
     }
@@ -111,7 +115,7 @@ class MainActivity : ComponentActivity() {
                 )
             } else {
                 IconButton(onClick = {
-                    viewModel.getAppsList()
+                    viewModel.getAppsList(isInDebugMode = isInDebugMode)
                 }) {
                     Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Refresh")
                 }

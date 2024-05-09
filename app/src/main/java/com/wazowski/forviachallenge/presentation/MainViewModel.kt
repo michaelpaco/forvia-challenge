@@ -31,10 +31,13 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    fun getAppsList() {
+    fun getAppsList(isInDebugMode: Boolean = false) {
         viewModelScope.launch {
-            // TODO: Remove this after finishing implementation
-            when (val result = repository.getAppsList(offset = Random.nextInt(0, 60001))) {
+            when (val result = repository.getAppsList(
+                offset = if (isInDebugMode) Random.nextInt(
+                    0, 60001
+                ) else 0
+            )) {
                 is Resource.Success -> {
                     result.data?.let { list ->
                         repository.insertAll(list)
@@ -48,8 +51,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
-    suspend fun deleteAll() = withContext(Dispatchers.IO){
-        db.runInTransaction{
+    suspend fun deleteAll() = withContext(Dispatchers.IO) {
+        db.runInTransaction {
             runBlocking {
                 db.clearAllTables()
             }
