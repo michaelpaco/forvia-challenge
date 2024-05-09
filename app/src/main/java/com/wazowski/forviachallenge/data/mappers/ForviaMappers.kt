@@ -20,6 +20,7 @@ fun Datasets.toForviaAppList(): List<ForviaApp> {
             rating = data.rating,
             icon = data.icon,
             graphic = data.graphic,
+            size = data.size
         )
     }
 }
@@ -40,5 +41,6 @@ fun ForviaAppDto.toForviaApp(): ForviaApp {
         rating = this.rating,
         icon = this.icon,
         graphic = this.graphic,
+        size = this.size
     )
 }

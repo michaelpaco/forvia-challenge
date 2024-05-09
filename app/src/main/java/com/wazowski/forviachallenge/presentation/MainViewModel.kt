@@ -6,7 +6,7 @@ import com.wazowski.forviachallenge.common.Resource
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.domain.repository.ForviaRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.random.Random
@@ -15,15 +15,24 @@ import kotlin.random.Random
 class MainViewModel @Inject constructor(
     private val repository: ForviaRepository
 ) : ViewModel() {
-    val appsList = MutableStateFlow<List<ForviaApp>>(emptyList())
+    private val _appsList = MutableStateFlow<List<ForviaApp>>(emptyList())
+    val appsList = _appsList.asStateFlow()
+
+    init {
+        viewModelScope.launch {
+            repository.getDbAppsList().data?.collect {
+                _appsList.value = it
+            }
+        }
+    }
 
     fun getAppsList() {
         viewModelScope.launch {
             // TODO: Remove this after finishing implementation
             when (val result = repository.getAppsList(offset = Random.nextInt(0, 60001))) {
                 is Resource.Success -> {
-                    result.data?.let {
-                        appsList.value = result.data
+                    result.data?.let { list ->
+                        repository.insertAll(list)
                     }
                 }
 

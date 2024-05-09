@@ -2,6 +2,7 @@ package com.wazowski.forviachallenge.common
 
 import com.wazowski.forviachallenge.data.mappers.toForviaApp
 import com.wazowski.forviachallenge.data.remote.ForviaAppDto
+import com.wazowski.forviachallenge.domain.model.ForviaApp
 
 val allApps = listOf(
     ForviaAppDto(
