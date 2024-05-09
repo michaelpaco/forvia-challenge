@@ -1,8 +1,10 @@
 package com.wazowski.forviachallenge.di
 
+import android.content.Context
 import com.wazowski.forviachallenge.data.remote.ForviaApi
 import dagger.*
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.*
 import retrofit2.converter.moshi.MoshiConverterFactory
@@ -21,4 +23,9 @@ object AppModule {
             .build()
             .create()
     }
-}
+
+    @Provides
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+ }
