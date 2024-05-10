@@ -23,7 +23,7 @@ object DatabaseModule {
     }
 
     @Provides
-    fun provideChannelDao(forviaDatabase: ForviaDatabase): ForviaAppDao {
+    fun provideForviaAppDao(forviaDatabase: ForviaDatabase): ForviaAppDao {
         return forviaDatabase.forviaAppDao()
     }
 }
