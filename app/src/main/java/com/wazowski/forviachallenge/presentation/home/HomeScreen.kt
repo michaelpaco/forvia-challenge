@@ -1,27 +1,108 @@
 package com.wazowski.forviachallenge.presentation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
+import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.allApps
-import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun HomeScreen(appList: List<ForviaApp>, onCardClick: (Int) -> Unit) {
+fun HomeScreen(
+    uiState: State<UiState>, onCardClick: (Int) -> Unit,
+) {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
-            AppList(apps = appList, onCardClick = { id -> onCardClick(id)})
+            when (val state = uiState.value) {
+                is UiState.Loading -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        CircularProgressIndicator()
+                    }
+                }
+
+                is UiState.Success -> {
+                    Column {
+                        Text(
+                            text = "Top downloads",
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.padding(start = 12.dp)
+                        )
+                        AppListRow(apps = state.topDownloadedApps) { app ->
+                            AppListRowCardItem(app = app, onClick = onCardClick)
+                        }
+                    }
+
+                    HorizontalDivider()
+
+                    Column {
+                        Text(
+                            text = "All apps",
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.padding(start = 12.dp, top = 12.dp)
+                        )
+                        AppListGrid(apps = state.allApps,
+                            onCardClick = { id -> onCardClick(id) })
+                    }
+                }
+
+                is UiState.Empty -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = "No content to show")
+                    }
+                }
+
+                is UiState.Error -> {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(text = state.message)
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
 @PreviewLightDark
-fun HomeScreenPreview() {
+fun HomeScreenLoadingPreview() {
+    val uiState = remember {
+        mutableStateOf(
+            UiState.Loading
+        )
+    }
+
     ForviaChallengeTheme {
-        HomeScreen(appList = allApps, onCardClick = {})
+        HomeScreen(
+            uiState = uiState
+        ) {}
+    }
+}
+
+@Composable
+@PreviewLightDark
+fun HomeScreenSuccessPreview() {
+    val uiState = remember {
+        mutableStateOf(
+            UiState.Success(allApps = allApps, topDownloadedApps = allApps)
+        )
+    }
+
+    ForviaChallengeTheme {
+        HomeScreen(
+            uiState = uiState
+        ) {}
     }
 }
