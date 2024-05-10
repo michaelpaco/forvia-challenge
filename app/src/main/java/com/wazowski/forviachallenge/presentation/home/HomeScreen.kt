@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
-import com.wazowski.forviachallenge.common.allApps
+import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.presentation.home.HomeUiState
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -14,8 +14,8 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 fun HomeScreen(
     uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
 ) {
-    Scaffold {
-        Column(modifier = Modifier.padding(it)) {
+    Scaffold { _ ->
+        Column(modifier = Modifier.statusBarsPadding()) {
             when (val state = uiState.value) {
                 is HomeUiState.Loading -> {
                     Column(
@@ -60,8 +60,7 @@ fun HomeScreen(
                             style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier.padding(start = 12.dp, top = 12.dp)
                         )
-                        AppListGrid(apps = state.allApps,
-                            onCardClick = { id -> onCardClick(id) })
+                        AppListGrid(apps = state.allApps, onCardClick = { id -> onCardClick(id) })
                     }
                 }
 

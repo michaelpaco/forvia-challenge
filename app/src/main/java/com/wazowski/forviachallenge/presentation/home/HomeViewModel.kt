@@ -21,29 +21,29 @@ class HomeViewModel @Inject constructor(
     private val _topDownloadedApps = MutableStateFlow<List<ForviaApp>?>(null)
     private val _latestAddedApps = MutableStateFlow<List<ForviaApp>?>(null)
 
-    val uiState =
-        combine(_uiState, _allApps, _topDownloadedApps, _latestAddedApps) { uiState, allApps, topDownloadedApps, latestAddedApps ->
-            when (uiState) {
-                is HomeUiState.Success -> {
-                    if (allApps == null || topDownloadedApps == null || latestAddedApps == null) HomeUiState.Loading
-                    else if (allApps.isEmpty()) HomeUiState.Empty
-                    else HomeUiState.Success(allApps, topDownloadedApps, latestAddedApps)
-                }
-
-                is HomeUiState.Error -> {
-                    HomeUiState.Error(message = uiState.message)
-                }
-
-                else -> {
-                    Log.d("HomeViewModel", "UiState is $uiState")
-                    HomeUiState.Loading
-                }
+    val uiState = combine(
+        _uiState, _allApps, _topDownloadedApps, _latestAddedApps
+    ) { uiState, allApps, topDownloadedApps, latestAddedApps ->
+        when (uiState) {
+            is HomeUiState.Success -> {
+                if (allApps == null || topDownloadedApps == null || latestAddedApps == null) HomeUiState.Loading
+                else if (allApps.isEmpty()) HomeUiState.Empty
+                else HomeUiState.Success(allApps, topDownloadedApps, latestAddedApps)
             }
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = HomeUiState.Loading
-        )
+
+            is HomeUiState.Error -> {
+                HomeUiState.Error(message = uiState.message)
+            }
+
+            else -> {
+                HomeUiState.Loading
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5_000),
+        initialValue = HomeUiState.Loading
+    )
 
     init {
         collectAllApps()
