@@ -20,14 +20,15 @@ class HomeViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
     private val _allApps = MutableStateFlow<List<ForviaApp>?>(null)
     private val _topDownloadedApps = MutableStateFlow<List<ForviaApp>?>(null)
+    private val _latestAddedApps = MutableStateFlow<List<ForviaApp>?>(null)
 
     val uiState =
-        combine(_uiState, _allApps, _topDownloadedApps) { uiState, allApps, topDownloadedApps ->
+        combine(_uiState, _allApps, _topDownloadedApps, _latestAddedApps) { uiState, allApps, topDownloadedApps, latestAddedApps ->
             when (uiState) {
                 is UiState.Success -> {
-                    if (allApps == null || topDownloadedApps == null) UiState.Loading
+                    if (allApps == null || topDownloadedApps == null || latestAddedApps == null) UiState.Loading
                     else if (allApps.isEmpty()) UiState.Empty
-                    else UiState.Success(allApps, topDownloadedApps)
+                    else UiState.Success(allApps, topDownloadedApps, latestAddedApps)
                 }
 
                 is UiState.Error -> {
@@ -48,6 +49,7 @@ class HomeViewModel @Inject constructor(
     init {
         collectAllApps()
         collectMostDownloadedApps()
+        collectLatestAddedApps()
     }
 
     private fun collectAllApps() {
@@ -74,6 +76,24 @@ class HomeViewModel @Inject constructor(
                 is Resource.Success -> {
                     result.data?.collect { apps ->
                         _topDownloadedApps.update { apps }
+                    }
+                }
+
+                else -> {
+                    result.message?.let {
+                        _uiState.value = UiState.Error(message = it)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun collectLatestAddedApps() {
+        viewModelScope.launch {
+            when (val result = forviaLocalRepository.getLatestAddedApps()) {
+                is Resource.Success -> {
+                    result.data?.collect { apps ->
+                        _latestAddedApps.update { apps }
                     }
                 }
 

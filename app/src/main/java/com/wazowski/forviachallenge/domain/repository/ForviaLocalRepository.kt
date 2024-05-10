@@ -9,4 +9,5 @@ interface ForviaLocalRepository {
     suspend fun insertAll(list: List<ForviaApp>): Resource<Unit>
     suspend fun deleteAll(): Resource<Unit>
     suspend fun getMostDownloadedApps(): Resource<Flow<List<ForviaApp>>>
+    suspend fun getLatestAddedApps(): Resource<Flow<List<ForviaApp>>>
 }

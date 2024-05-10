@@ -17,4 +17,8 @@ interface ForviaAppDao {
 
     @Query("SELECT * FROM apps ORDER BY downloads DESC LIMIT 10")
     fun getMostDownloadedApps(): Flow<List<ForviaApp>>
+
+    @Query("SELECT * FROM apps ORDER BY added DESC LIMIT 10")
+    fun getLatestAddedApps(): Flow<List<ForviaApp>>
+
 }
