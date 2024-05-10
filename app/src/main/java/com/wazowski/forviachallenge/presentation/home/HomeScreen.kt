@@ -7,16 +7,17 @@ import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.allApps
+import com.wazowski.forviachallenge.presentation.home.HomeUiState
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
 fun HomeScreen(
-    uiState: State<UiState>, onCardClick: (Int) -> Unit,
+    uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
 ) {
     Scaffold {
         Column(modifier = Modifier.padding(it)) {
             when (val state = uiState.value) {
-                is UiState.Loading -> {
+                is HomeUiState.Loading -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -26,7 +27,20 @@ fun HomeScreen(
                     }
                 }
 
-                is UiState.Success -> {
+                is HomeUiState.Success -> {
+                    Column {
+                        Text(
+                            text = "Latest added apps",
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.padding(start = 12.dp)
+                        )
+                        AppListRow(apps = state.latestAddedApps) { app ->
+                            AppListRowCardItem(app = app, onClick = onCardClick)
+                        }
+                    }
+
+                    HorizontalDivider()
+
                     Column {
                         Text(
                             text = "Top downloads",
@@ -51,7 +65,7 @@ fun HomeScreen(
                     }
                 }
 
-                is UiState.Empty -> {
+                is HomeUiState.Empty -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -61,7 +75,7 @@ fun HomeScreen(
                     }
                 }
 
-                is UiState.Error -> {
+                is HomeUiState.Error -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -80,7 +94,7 @@ fun HomeScreen(
 fun HomeScreenLoadingPreview() {
     val uiState = remember {
         mutableStateOf(
-            UiState.Loading
+            HomeUiState.Loading
         )
     }
 
@@ -96,7 +110,7 @@ fun HomeScreenLoadingPreview() {
 fun HomeScreenSuccessPreview() {
     val uiState = remember {
         mutableStateOf(
-            UiState.Success(allApps = allApps, topDownloadedApps = allApps)
+            HomeUiState.Success(allApps = allApps, topDownloadedApps = allApps)
         )
     }
 

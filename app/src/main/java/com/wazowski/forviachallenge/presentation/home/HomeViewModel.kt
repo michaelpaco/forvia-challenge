@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.domain.repository.*
-import com.wazowski.forviachallenge.presentation.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -17,7 +16,7 @@ class HomeViewModel @Inject constructor(
     private val forviaApiRepository: ForviaApiRepository,
     private val forviaLocalRepository: ForviaLocalRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    private val _uiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
     private val _allApps = MutableStateFlow<List<ForviaApp>?>(null)
     private val _topDownloadedApps = MutableStateFlow<List<ForviaApp>?>(null)
     private val _latestAddedApps = MutableStateFlow<List<ForviaApp>?>(null)
@@ -25,25 +24,25 @@ class HomeViewModel @Inject constructor(
     val uiState =
         combine(_uiState, _allApps, _topDownloadedApps, _latestAddedApps) { uiState, allApps, topDownloadedApps, latestAddedApps ->
             when (uiState) {
-                is UiState.Success -> {
-                    if (allApps == null || topDownloadedApps == null || latestAddedApps == null) UiState.Loading
-                    else if (allApps.isEmpty()) UiState.Empty
-                    else UiState.Success(allApps, topDownloadedApps, latestAddedApps)
+                is HomeUiState.Success -> {
+                    if (allApps == null || topDownloadedApps == null || latestAddedApps == null) HomeUiState.Loading
+                    else if (allApps.isEmpty()) HomeUiState.Empty
+                    else HomeUiState.Success(allApps, topDownloadedApps, latestAddedApps)
                 }
 
-                is UiState.Error -> {
-                    UiState.Error(message = uiState.message)
+                is HomeUiState.Error -> {
+                    HomeUiState.Error(message = uiState.message)
                 }
 
                 else -> {
                     Log.d("HomeViewModel", "UiState is $uiState")
-                    UiState.Loading
+                    HomeUiState.Loading
                 }
             }
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = UiState.Loading
+            initialValue = HomeUiState.Loading
         )
 
     init {
@@ -63,7 +62,7 @@ class HomeViewModel @Inject constructor(
 
                 else -> {
                     result.message?.let {
-                        _uiState.value = UiState.Error(message = it)
+                        _uiState.value = HomeUiState.Error(message = it)
                     }
                 }
             }
@@ -81,7 +80,7 @@ class HomeViewModel @Inject constructor(
 
                 else -> {
                     result.message?.let {
-                        _uiState.value = UiState.Error(message = it)
+                        _uiState.value = HomeUiState.Error(message = it)
                     }
                 }
             }
@@ -99,7 +98,7 @@ class HomeViewModel @Inject constructor(
 
                 else -> {
                     result.message?.let {
-                        _uiState.value = UiState.Error(message = it)
+                        _uiState.value = HomeUiState.Error(message = it)
                     }
                 }
             }
@@ -116,13 +115,13 @@ class HomeViewModel @Inject constructor(
                 is Resource.Success -> {
                     result.data?.let { apps ->
                         forviaLocalRepository.insertAll(apps)
-                        _uiState.value = UiState.Success(allApps = apps)
+                        _uiState.value = HomeUiState.Success(allApps = apps)
                     }
                 }
 
                 is Resource.Error -> {
                     result.message?.let {
-                        _uiState.value = UiState.Error(message = "No internet connection")
+                        _uiState.value = HomeUiState.Error(message = "No internet connection")
                     }
                 }
             }
