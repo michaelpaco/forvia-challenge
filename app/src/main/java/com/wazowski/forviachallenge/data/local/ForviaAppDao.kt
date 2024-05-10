@@ -9,6 +9,9 @@ interface ForviaAppDao {
     @Query("SELECT * FROM apps")
     fun getAll(): Flow<List<ForviaApp>>
 
+    @Query("SELECT * FROM apps where id = :appId")
+    fun getById(appId: Int): ForviaApp
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(apps: List<ForviaApp>)
 

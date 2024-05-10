@@ -22,6 +22,17 @@ class ForviaLocalRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getAppById(appId: Int): Resource<ForviaApp> {
+        return try {
+            Resource.Success(
+                data = forviaAppDao.getById(appId)
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Error(e.message ?: "An unknown error occurred.")
+        }
+    }
+
     override suspend fun insertAll(list: List<ForviaApp>): Resource<Unit> {
         return try {
             val result = forviaAppDao.insertAll(list)
