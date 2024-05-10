@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.*
 import androidx.navigation.compose.*
+import com.wazowski.forviachallenge.presentation.home.HomeViewModel
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -20,7 +21,8 @@ import kotlinx.coroutines.*
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-    private val viewModel: MainViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
+    private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +33,8 @@ class MainActivity : ComponentActivity() {
 
                 val scope = rememberCoroutineScope()
 
-                val appList by viewModel.appsList.collectAsState()
-                val isConnected by viewModel.isConnected.collectAsState()
+                val homeUiState = homeViewModel.uiState.collectAsState()
+                val isConnected by mainViewModel.isConnected.collectAsState()
 
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
@@ -55,9 +57,9 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.padding(innerPadding)
                         ) {
                             composable(route = "home") {
-                                HomeScreen(appList = appList, onCardClick = { appId ->
+                                HomeScreen(uiState = homeUiState) { appId ->
                                     navController.navigate("app/$appId")
-                                })
+                                }
                             }
                             composable(
                                 route = "app/{id}", arguments = listOf(navArgument("id") {
@@ -76,8 +78,10 @@ class MainActivity : ComponentActivity() {
                     }
                 }
 
-                LaunchedEffect(key1 = isConnected) {
-                    viewModel.getAppsList()
+                LaunchedEffect(
+                    key1 = isConnected,
+                ) {
+                    homeViewModel.getAppsList()
                 }
             }
         }
@@ -115,13 +119,13 @@ class MainActivity : ComponentActivity() {
                 )
             } else {
                 IconButton(onClick = {
-                    viewModel.getAppsList(isInDebugMode = isInDebugMode)
+                    homeViewModel.getAppsList(isInDebugMode = isInDebugMode)
                 }) {
                     Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Refresh")
                 }
                 IconButton(onClick = {
                     coroScope.launch {
-                        viewModel.deleteAll()
+                        mainViewModel.deleteAll()
                     }
                 }) {
                     Icon(imageVector = Icons.Filled.Delete, contentDescription = "Refresh")
