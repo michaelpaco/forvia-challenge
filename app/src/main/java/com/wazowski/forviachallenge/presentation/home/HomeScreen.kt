@@ -1,4 +1,4 @@
-package com.wazowski.forviachallenge.presentation
+package com.wazowski.forviachallenge.presentation.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -7,7 +7,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
-import com.wazowski.forviachallenge.presentation.home.HomeUiState
+import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
@@ -15,7 +15,11 @@ fun HomeScreen(
     uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
 ) {
     Scaffold { _ ->
-        Column(modifier = Modifier.statusBarsPadding()) {
+        Column(
+            modifier = Modifier
+                .statusBarsPadding()
+                .padding(top = 64.dp)
+        ) {
             when (val state = uiState.value) {
                 is HomeUiState.Loading -> {
                     Column(
