@@ -14,4 +14,7 @@ interface ForviaAppDao {
 
     @Query("DELETE FROM apps")
     suspend fun deleteAll()
+
+    @Query("SELECT * FROM apps ORDER BY downloads DESC LIMIT 10")
+    fun getMostDownloadedApps(): Flow<List<ForviaApp>>
 }
