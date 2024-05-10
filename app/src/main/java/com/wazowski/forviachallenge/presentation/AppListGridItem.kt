@@ -13,12 +13,12 @@ import androidx.compose.ui.text.style.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.R
-import com.wazowski.forviachallenge.common.allApps
+import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun AppListItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
+fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
     Card(elevation = CardDefaults.cardElevation(
         defaultElevation = 4.dp
     ), modifier = modifier
@@ -65,9 +65,9 @@ fun AppListItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Mod
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
-                    imageVector = Icons.Filled.KeyboardArrowDown,
+                    imageVector = Icons.Filled.Download,
                     contentDescription = "Downloads",
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(12.dp)
                 )
                 Text(
                     text = app.downloads.formatNumber(), style = MaterialTheme.typography.labelSmall
@@ -79,7 +79,7 @@ fun AppListItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Mod
 
 @Composable
 @Preview
-fun AppListItemPreview() {
+fun AppListGridItemPreview() {
     val app = allApps.first()
 
     ForviaChallengeTheme {
@@ -88,17 +88,8 @@ fun AppListItemPreview() {
                 .height(100.dp)
                 .width(60.dp)
         ) {
-            AppListItem(app = app, onClick = {})
+            AppListGridItem(app = app, onClick = {})
         }
     }
 
-}
-
-private fun Int.formatNumber(): String {
-    return when {
-        this >= 1000000 -> "+${this / 1000000}M"
-        this >= 10000 -> "+${this / 1000}k"
-        this >= 1000 -> "+${this / 1000},${this % 1000}"
-        else -> this.toString()
-    }
 }

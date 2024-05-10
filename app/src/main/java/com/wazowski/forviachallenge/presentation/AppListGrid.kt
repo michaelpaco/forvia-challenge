@@ -12,15 +12,15 @@ import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun AppList(apps: List<ForviaApp>, onCardClick: (Int) -> Unit) {
+fun AppListGrid(apps: List<ForviaApp>, onCardClick: (Int) -> Unit) {
     LazyVerticalGrid(
-        columns = GridCells.Adaptive(100.dp),
+        columns = GridCells.Adaptive(120.dp),
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         items(items = apps, key = { data -> data.id }) {
-            AppListItem(app = it, onClick = onCardClick, modifier = Modifier.padding(6.dp))
+            AppListGridItem(app = it, onClick = onCardClick, modifier = Modifier.padding(6.dp))
         }
     }
 }
@@ -30,7 +30,7 @@ fun AppList(apps: List<ForviaApp>, onCardClick: (Int) -> Unit) {
 fun AppListPreview() {
     ForviaChallengeTheme {
         Surface {
-            AppList(apps = allApps, onCardClick = {})
+            AppListGrid(apps = allApps, onCardClick = {})
         }
     }
 }
