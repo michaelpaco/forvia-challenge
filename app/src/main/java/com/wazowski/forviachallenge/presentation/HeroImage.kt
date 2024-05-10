@@ -1,6 +1,7 @@
 package com.wazowski.forviachallenge.presentation
 
-import androidx.compose.foundation.Image
+import android.util.Log
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -17,9 +18,9 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 fun HeroImage(imageUrl: Any?) {
     SubcomposeAsyncImage(modifier = Modifier
         .fillMaxWidth()
-        .heightIn(150.dp),
-        contentScale = ContentScale.FillWidth,
-        model = imageUrl,
+        .heightIn(150.dp, 260.dp),
+        contentScale = ContentScale.FillHeight,
+        model =  imageUrl,
         loading = {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -32,7 +33,7 @@ fun HeroImage(imageUrl: Any?) {
         contentDescription = stringResource(R.string.app_name),
         error = {
             Image(
-                painter = painterResource(id = R.drawable.hero_placeholder),
+                painter = painterResource(id = R.drawable.placeholder_hero),
                 contentDescription = "Error loading image"
             )
         })
@@ -47,7 +48,7 @@ fun HeroImagePreview() {
                 .height(110.dp)
                 .width(110.dp)
         ) {
-            HeroImage(R.drawable.hero_placeholder)
+            HeroImage(R.drawable.placeholder_hero)
         }
     }
 }
