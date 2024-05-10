@@ -11,7 +11,7 @@ data class ForviaApp(
     val storeName: String,
     val vername: String,
     val vercode: Int,
-    val size: Int,
+    val size: Long,
     val downloads: Int,
     val added: String,
     val modified: String,

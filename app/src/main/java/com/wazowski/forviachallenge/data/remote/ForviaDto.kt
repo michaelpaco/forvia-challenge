@@ -48,7 +48,7 @@ data class ForviaAppDto(
     @Json(name = "vercode") val vercode: Int,
     @Json(name = "md5sum") val md5sum: String,
     @Json(name = "apk_tags") val apkTags: List<String>,
-    @Json(name = "size") val size: Int,
+    @Json(name = "size") val size: Long,
     @Json(name = "downloads") val downloads: Int,
     @Json(name = "pdownloads") val pdownloads: Int,
     @Json(name = "added") val added: String,
