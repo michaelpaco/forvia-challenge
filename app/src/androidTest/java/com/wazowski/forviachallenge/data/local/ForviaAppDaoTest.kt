@@ -50,4 +50,17 @@ class ForviaAppDaoTest {
         val elements = forviaAppDao.getAll().take(1).toList()
         assert(forviaAppList.contains(elements[0].first()))
     }
+
+    @Test
+    fun getById() = testScope.runTest {
+        val first = allApps.first()
+        val last = allApps.last()
+        val forviaAppList = listOf(first, last)
+
+        forviaAppDao.insertAll(forviaAppList)
+
+        val found = forviaAppDao.getById(first.id)
+
+        assert(found.name == first.name)
+    }
 }
