@@ -1,6 +1,6 @@
 package com.wazowski.forviachallenge.di
 
-import com.wazowski.forviachallenge.data.repository.ForviaRepositoryImpl
+import com.wazowski.forviachallenge.data.repository.*
 import com.wazowski.forviachallenge.domain.repository.*
 import dagger.*
 import dagger.hilt.InstallIn
@@ -13,9 +13,15 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindForviaRepository(
-        forviaRepositoryImpl: ForviaRepositoryImpl
-    ): ForviaRepository
+    abstract fun bindForviaApiRepository(
+        forviaApiRepositoryImpl: ForviaApiRepositoryImpl
+    ): ForviaApiRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindForviaLocalRepository(
+        forviaLocalRepositoryImpl: ForviaLocalRepositoryImpl
+    ): ForviaLocalRepository
 
     @Binds
     @Singleton
