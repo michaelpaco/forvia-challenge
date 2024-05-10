@@ -22,7 +22,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAppById(appId: Int): Resource<ForviaApp> {
+    override fun getAppById(appId: Int): Resource<ForviaApp> {
         return try {
             Resource.Success(
                 data = forviaAppDao.getById(appId)

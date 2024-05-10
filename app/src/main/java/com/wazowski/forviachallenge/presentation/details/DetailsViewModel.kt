@@ -15,17 +15,15 @@ class DetailsViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<DetailsUiState>(DetailsUiState.Empty)
     val uiState = _uiState.asStateFlow()
 
-    fun getAppById(appId: Int) {
-        viewModelScope.launch {
-            when(val result = forviaLocalRepository.getAppById(appId = appId)) {
-                is Resource.Success -> {
-                    result.data?.let {  app ->
-                        _uiState.value = DetailsUiState.Success(app = app)
-                    }
+    suspend fun getAppById(appId: Int) = withContext(Dispatchers.IO) {
+        when (val result = forviaLocalRepository.getAppById(appId = appId)) {
+            is Resource.Success -> {
+                result.data?.let { app ->
+                    _uiState.value = DetailsUiState.Success(app = app)
                 }
-                is Resource.Error -> {
-                    _uiState.value = DetailsUiState.Error("There was an error, try again.")
-                }
+            }
+            is Resource.Error -> {
+                _uiState.value = DetailsUiState.Error("There was an error, try again.")
             }
         }
     }
