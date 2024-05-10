@@ -1,5 +1,6 @@
 package com.wazowski.forviachallenge.presentation.home
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -10,11 +11,12 @@ import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
     uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
 ) {
-    Scaffold { _ ->
+    Scaffold {
         Column(
             modifier = Modifier
                 .statusBarsPadding()

@@ -1,5 +1,6 @@
 package com.wazowski.forviachallenge.presentation
 
+import android.annotation.SuppressLint
 import android.os.*
 import androidx.activity.*
 import androidx.activity.compose.setContent
@@ -24,6 +25,7 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -70,7 +72,7 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
-                    }) { _ ->
+                    }) {
                         NavHost(
                             navController,
                             startDestination = "home",
