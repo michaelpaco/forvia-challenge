@@ -1,6 +1,7 @@
 package com.wazowski.forviachallenge.data.repository
 
 import com.wazowski.forviachallenge.common.Resource
+import com.wazowski.forviachallenge.data.local.ForviaAppDao
 import com.wazowski.forviachallenge.data.mappers.toForviaApp
 import com.wazowski.forviachallenge.data.remote.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
@@ -13,11 +14,11 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-class ForviaRepositoryImplTest {
+class ForviaApiRepositoryImplTest {
 
     @Mock
     private lateinit var api: ForviaApi
-    private lateinit var repository: ForviaRepositoryImpl
+    private lateinit var repository: ForviaApiRepositoryImpl
 
     private val mockAppDto = ForviaAppDto(
         id = 67566705,
@@ -45,14 +46,8 @@ class ForviaRepositoryImplTest {
 
     private val mockDataset = Datasets(
         All(
-            Info("OK", Time(0.03159499168395996, "32 milliseconds")),
-            Data(
-                total = 1,
-                offset = 0,
-                limit = 1,
-                next = 1,
-                hidden = 0,
-                list = listOf(mockAppDto)
+            Info("OK", Time(0.03159499168395996, "32 milliseconds")), Data(
+                total = 1, offset = 0, limit = 1, next = 1, hidden = 0, list = listOf(mockAppDto)
             )
         )
     )
@@ -60,35 +55,26 @@ class ForviaRepositoryImplTest {
     @Before
     fun setup() {
         MockitoAnnotations.openMocks(this)
-        repository = ForviaRepositoryImpl(api)
+        repository = ForviaApiRepositoryImpl(api)
     }
 
     @Test
     fun `getAppsList success test`() = runBlocking {
-        // Mocking
         val offset = 0
         `when`(api.getAppsList(offset)).thenReturn(ForviaDatasetDto(mockDataset))
-
-        // Call the function under test
-        val result = repository.getAppsList(offset)
+        val result = repository.getAllApps(offset)
 
         assertEquals(
-            Resource.Success(listOf(mockApp)).data?.first()?.name,
-            result.data?.first()?.name
+            Resource.Success(listOf(mockApp)).data?.first()?.name, result.data?.first()?.name
         )
     }
 
     @Test
     fun `getAppsList error test`() = runBlocking {
-        // Mocking
         val offset = 0
         val errorMsg = "Some error occurred"
         `when`(api.getAppsList(offset)).thenThrow(RuntimeException(errorMsg))
-
-        // Call the function under test
-        val result = repository.getAppsList(offset)
-
-        // Verify the result
+        val result = repository.getAllApps(offset)
         assertEquals(Resource.Error<List<ForviaApp>>(errorMsg).message, result.message)
     }
 }
