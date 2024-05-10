@@ -1,6 +1,5 @@
 package com.wazowski.forviachallenge.presentation.home
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
