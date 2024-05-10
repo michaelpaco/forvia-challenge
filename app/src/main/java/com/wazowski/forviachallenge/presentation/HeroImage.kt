@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.*
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,10 +18,11 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 @Composable
 fun HeroImage(imageUrl: Any?) {
     SubcomposeAsyncImage(modifier = Modifier
+        .background(Color.Red)
         .fillMaxWidth()
-        .heightIn(150.dp, 260.dp),
+        .heightIn(120.dp, 320.dp),
         contentScale = ContentScale.FillHeight,
-        model =  imageUrl,
+        model = imageUrl,
         loading = {
             Column(
                 verticalArrangement = Arrangement.Center,
@@ -33,6 +35,7 @@ fun HeroImage(imageUrl: Any?) {
         contentDescription = stringResource(R.string.app_name),
         error = {
             Image(
+                contentScale = ContentScale.FillWidth,
                 painter = painterResource(id = R.drawable.placeholder_hero),
                 contentDescription = "Error loading image"
             )
