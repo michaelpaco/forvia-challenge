@@ -1,6 +1,7 @@
 package com.wazowski.forviachallenge.notification
 
 import android.content.Context
+import android.util.Log
 import androidx.work.*
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
@@ -14,16 +15,22 @@ class ForviaNotificationWorker(
     }
 
     companion object {
-        const val REMINDER_TAG = "forvia_reminder"
+        private const val REMINDER_TAG = "forvia_reminder"
         fun schedule(appContext: Context) {
             val currentTime = Calendar.getInstance()
+
+            /*
+            *   Get time for now with 0'ed minutes
+            * */
             val targetTime = Calendar.getInstance().apply {
-                set(Calendar.MINUTE, 17)
+                set(Calendar.MINUTE, 0)
                 set(Calendar.SECOND, 0)
             }
 
+            // Schedule next notification to 5 minutes after first app initialization
             if (targetTime.before(currentTime)) {
-                targetTime.add(Calendar.MINUTE, 30)
+                val currentTimeMinutes = currentTime.get(Calendar.MINUTE)
+                targetTime.add(Calendar.MINUTE, currentTimeMinutes + 5)
             }
 
             val initialDelayMillis = targetTime.timeInMillis - System.currentTimeMillis()
@@ -34,9 +41,7 @@ class ForviaNotificationWorker(
                 .build()
 
             WorkManager.getInstance(appContext).enqueueUniquePeriodicWork(
-                "reminder_notification_work",
-                ExistingPeriodicWorkPolicy.UPDATE,
-                notificationRequest
+                "reminder_notification_work", ExistingPeriodicWorkPolicy.UPDATE, notificationRequest
             )
         }
     }
