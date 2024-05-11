@@ -1,19 +1,23 @@
 package com.wazowski.forviachallenge.presentation
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.os.*
 import androidx.activity.*
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.*
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.navigation.*
 import androidx.navigation.compose.*
 import com.wazowski.forviachallenge.common.Constants.LONG_ANIMATION_DURATION
@@ -38,6 +42,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ForviaChallengeTheme {
+                val isSystemInDarkMode = isSystemInDarkTheme()
+                val colorScheme = MaterialTheme.colorScheme
+
+                val view = LocalView.current
+                if (!view.isInEditMode) {
+                    SideEffect {
+                        val window = (view.context as Activity).window
+                        window.statusBarColor = colorScheme.background.toArgb()
+                        window.navigationBarColor = colorScheme.background.toArgb()
+                        WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars =
+                            !isSystemInDarkMode
+                        WindowCompat.getInsetsController(
+                            window,
+                            view
+                        ).isAppearanceLightNavigationBars = !isSystemInDarkMode
+                    }
+                }
+
                 val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
 
@@ -146,41 +168,42 @@ class MainActivity : ComponentActivity() {
         var isInDebugMode by remember {
             mutableStateOf(false)
         }
-        CenterAlignedTopAppBar(title = {
-            Text(text = "Home", modifier = Modifier.clickable {
-                val currentTime = System.currentTimeMillis()
-                if ((currentTime - lastTouchTime) > 2000) {
-                    touchCount = 0
-                }
-                lastTouchTime = currentTime
-                touchCount++
-                if (touchCount == 7) {
-                    isInDebugMode = !isInDebugMode
-                    onDebugModeChange(isInDebugMode)
-                    touchCount = 0
+        CenterAlignedTopAppBar(modifier = Modifier.clickable {
+            val currentTime = System.currentTimeMillis()
+            if ((currentTime - lastTouchTime) > 2000) {
+                touchCount = 0
+            }
+            lastTouchTime = currentTime
+            touchCount++
+            if (touchCount == 7) {
+                isInDebugMode = !isInDebugMode
+                onDebugModeChange(isInDebugMode)
+                touchCount = 0
+            }
+        },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
+            title = {},
+            actions = {
+                if (!isInDebugMode) {
+                    if (!isConnected) Icon(
+                        modifier = Modifier.padding(end = PADDING_M.dp),
+                        imageVector = Icons.Filled.WifiOff,
+                        contentDescription = "No connection"
+                    )
+                } else {
+                    IconButton(onClick = {
+                        homeViewModel.getAppsList(isInDebugMode = isInDebugMode)
+                    }) {
+                        Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Refresh")
+                    }
+                    IconButton(onClick = {
+                        coroScope.launch {
+                            mainViewModel.deleteAll()
+                        }
+                    }) {
+                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Refresh")
+                    }
                 }
             })
-        }, actions = {
-            if (!isInDebugMode) {
-                if (!isConnected) Icon(
-                    modifier = Modifier.padding(end = PADDING_M.dp),
-                    imageVector = Icons.Filled.WifiOff,
-                    contentDescription = "No connection"
-                )
-            } else {
-                IconButton(onClick = {
-                    homeViewModel.getAppsList(isInDebugMode = isInDebugMode)
-                }) {
-                    Icon(imageVector = Icons.Filled.Refresh, contentDescription = "Refresh")
-                }
-                IconButton(onClick = {
-                    coroScope.launch {
-                        mainViewModel.deleteAll()
-                    }
-                }) {
-                    Icon(imageVector = Icons.Filled.Delete, contentDescription = "Refresh")
-                }
-            }
-        })
     }
 }
