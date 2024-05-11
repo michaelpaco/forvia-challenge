@@ -67,7 +67,9 @@ dependencies {
     val compose_bom_version = "2024.05.00"
     val hilt_compiler_version = "1.2.0"
     val moshi_converter_version = "2.9.0"
-    val hilt_navigation_compose_version = "1.2.0"
+    val hilt_addons_version = "1.2.0"
+    val work_runtime_version = "2.9.0"
+    val coil_version = "2.6.0"
 
     // Core
     implementation("androidx.core:core-ktx:1.13.1")
@@ -98,7 +100,10 @@ dependencies {
     kapt("com.squareup.moshi:moshi-kotlin-codegen:$moshi_version")
 
     // Image loading
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil-compose:$coil_version")
+
+    // Worker
+    implementation("androidx.work:work-runtime-ktx:$work_runtime_version")
 
     // Room
     implementation("androidx.room:room-runtime:$room_version")
@@ -110,7 +115,7 @@ dependencies {
 
     // DI
     implementation("com.google.dagger:hilt-android:$hilt_version")
-    implementation("androidx.hilt:hilt-navigation-compose:$hilt_navigation_compose_version")
+    implementation("androidx.hilt:hilt-navigation-compose:$hilt_addons_version")
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
     kapt("androidx.hilt:hilt-compiler:$hilt_compiler_version")
 
