@@ -11,6 +11,7 @@ object Constants {
 
     const val PADDING_XS = 4
     const val PADDING_S = 8
+    const val PADDING_SM = 12
     const val PADDING_M = 16
     const val PADDING_L = 24
     const val PADDING_XL = 32
