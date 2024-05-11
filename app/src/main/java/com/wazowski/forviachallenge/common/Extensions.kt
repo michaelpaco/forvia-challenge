@@ -1,5 +1,6 @@
 package com.wazowski.forviachallenge.common
 
+import androidx.compose.ui.unit.*
 import kotlin.math.*
 
 fun Int.formatNumber(): String {
@@ -16,4 +17,8 @@ fun Long.formatFileSize(): String {
     val units = arrayOf("B", "KB", "MB", "GB", "TB")
     val digitGroups = (log10(this.toDouble()) / log10(1024.0)).toInt()
     return String.format("%.1f %s", this / 1024.0.pow(digitGroups.toDouble()), units[digitGroups])
+}
+
+fun Dp.multiply(amount: Float): Dp {
+    return (this.value * amount).dp
 }
