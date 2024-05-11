@@ -1,4 +1,4 @@
-package com.wazowski.forviachallenge.presentation
+package com.wazowski.forviachallenge.presentation.composables
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,6 @@ import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
 import com.wazowski.forviachallenge.domain.model.ForviaApp
-import com.wazowski.forviachallenge.presentation.composables.*
 import com.wazowski.forviachallenge.presentation.theme.*
 
 @Composable

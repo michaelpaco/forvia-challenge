@@ -26,6 +26,7 @@ import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.*
+import com.wazowski.forviachallenge.presentation.composables.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

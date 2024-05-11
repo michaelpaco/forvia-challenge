@@ -1,4 +1,4 @@
-package com.wazowski.forviachallenge.presentation
+package com.wazowski.forviachallenge.presentation.composables
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.*
 import com.wazowski.forviachallenge.R
-import com.wazowski.forviachallenge.common.conditional
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
