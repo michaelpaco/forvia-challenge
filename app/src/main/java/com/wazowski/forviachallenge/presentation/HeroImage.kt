@@ -34,16 +34,12 @@ fun HeroImage(imageUrl: Any?) {
                 ), blendMode = BlendMode.DstIn
             )
         }, contentScale = ContentScale.FillHeight, model = imageUrl, loading = {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            CircularProgressIndicator()
-        }
+        LoadingIndicator(modifier = Modifier.fillMaxHeight())
     }, contentDescription = stringResource(R.string.app_name), error = {
         Image(
-            contentScale = ContentScale.FillWidth,
+            modifier = Modifier
+                .height(320.dp),
+            contentScale = ContentScale.Crop,
             painter = painterResource(id = R.drawable.placeholder_hero),
             contentDescription = "Error loading image"
         )

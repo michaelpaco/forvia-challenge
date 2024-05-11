@@ -233,7 +233,7 @@ private fun RatingBar(rating: Float) {
         repeat(MAX_STARS) { index ->
             val icon = when {
                 index < fullStarCount -> Icons.Default.Star
-                index == fullStarCount && halfStar -> Icons.Default.StarHalf
+                index == fullStarCount && halfStar -> Icons.AutoMirrored.Filled.StarHalf
                 else -> Icons.Default.StarBorder
             }
             Icon(

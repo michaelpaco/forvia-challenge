@@ -18,6 +18,7 @@ import androidx.navigation.*
 import androidx.navigation.compose.*
 import com.wazowski.forviachallenge.common.Constants.LONG_ANIMATION_DURATION
 import com.wazowski.forviachallenge.common.Constants.MEDIUM_ANIMATION_DURATION
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.SHORT_ANIMATION_DURATION
 import com.wazowski.forviachallenge.presentation.details.*
 import com.wazowski.forviachallenge.presentation.home.*
@@ -129,7 +130,7 @@ class MainActivity : ComponentActivity() {
                 LaunchedEffect(
                     key1 = isConnected,
                 ) {
-                    homeViewModel.getAppsList()
+                    if (isConnected) homeViewModel.getAppsList()
                 }
             }
         }
@@ -162,7 +163,7 @@ class MainActivity : ComponentActivity() {
         }, actions = {
             if (!isInDebugMode) {
                 if (!isConnected) Icon(
-                    modifier = Modifier.padding(end = 16.dp),
+                    modifier = Modifier.padding(end = PADDING_M.dp),
                     imageVector = Icons.Filled.WifiOff,
                     contentDescription = "No connection"
                 )

@@ -14,6 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
+import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -26,7 +28,7 @@ fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifie
         .clickable {
             onClick(app.id)
         }
-        .padding(horizontal = 4.dp)) {
+        .padding(horizontal = PADDING_XS.dp)) {
         Column(
             modifier = Modifier.heightIn(min = 100.dp, max = 110.dp),
         ) {
@@ -47,7 +49,11 @@ fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifie
             maxLines = 1,
             style = MaterialTheme.typography.labelSmall,
             textAlign = TextAlign.Left,
-            modifier = Modifier.padding(start = 4.dp, top = 4.dp, end = 4.dp)
+            modifier = Modifier.padding(
+                start = PADDING_XS.dp,
+                top = PADDING_XS.dp,
+                end = PADDING_XS.dp
+            )
         )
 
         Row(
@@ -68,7 +74,7 @@ fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifie
                 Icon(
                     imageVector = Icons.Filled.Download,
                     contentDescription = "Downloads",
-                    modifier = Modifier.size(16.dp)
+                    modifier = Modifier.size(PADDING_M.dp)
                 )
                 Text(
                     text = app.downloads.formatNumber(), style = MaterialTheme.typography.labelSmall

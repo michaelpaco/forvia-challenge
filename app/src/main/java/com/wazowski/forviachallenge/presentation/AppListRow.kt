@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.allApps
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
@@ -18,7 +19,7 @@ fun AppListRow(
     apps: List<ForviaApp>, content: @Composable (ForviaApp) -> Unit
 ) {
     LazyRow(
-        contentPadding = PaddingValues(16.dp),
+        contentPadding = PaddingValues(PADDING_M.dp),
         horizontalArrangement = Arrangement.spacedBy(6.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

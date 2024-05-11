@@ -8,6 +8,8 @@ import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
+import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -20,17 +22,11 @@ fun HomeScreen(
         Column(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(top = 64.dp)
+                .padding(top = PADDING_XXL.dp)
         ) {
             when (val state = uiState.value) {
                 is HomeUiState.Loading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    LoadingIndicator(modifier = Modifier.fillMaxSize())
                 }
 
                 is HomeUiState.Success -> {
@@ -38,7 +34,7 @@ fun HomeScreen(
                         Text(
                             text = "Latest added apps",
                             style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = 12.dp)
+                            modifier = Modifier.padding(start = PADDING_M.dp)
                         )
                         AppListRow(apps = state.latestAddedApps) { app ->
                             AppListRowCardItem(app = app, onClick = onCardClick)
@@ -51,7 +47,7 @@ fun HomeScreen(
                         Text(
                             text = "Top downloads",
                             style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = 12.dp)
+                            modifier = Modifier.padding(start = PADDING_M.dp)
                         )
                         AppListRow(apps = state.topDownloadedApps) { app ->
                             AppListRowCardItem(app = app, onClick = onCardClick)
@@ -64,7 +60,7 @@ fun HomeScreen(
                         Text(
                             text = "All apps",
                             style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = 12.dp, top = 12.dp)
+                            modifier = Modifier.padding(start = PADDING_M.dp, top = PADDING_M.dp)
                         )
                         AppListGrid(apps = state.allApps, onCardClick = { id -> onCardClick(id) })
                     }

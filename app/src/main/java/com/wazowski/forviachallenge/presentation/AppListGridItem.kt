@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
@@ -46,14 +47,18 @@ fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier =
             maxLines = 1,
             style = MaterialTheme.typography.labelSmall,
             textAlign = TextAlign.Left,
-            modifier = Modifier.padding(start = 4.dp, top = 4.dp, end = 4.dp)
+            modifier = Modifier.padding(
+                start = PADDING_XS.dp,
+                top = PADDING_XS.dp,
+                end = PADDING_XS.dp
+            )
         )
 
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 2.dp)
+                .padding(horizontal = PADDING_XS.dp, vertical = (PADDING_XS / 2).dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
