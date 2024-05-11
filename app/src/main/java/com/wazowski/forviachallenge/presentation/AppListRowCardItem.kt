@@ -2,11 +2,10 @@ package com.wazowski.forviachallenge.presentation
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.*
@@ -14,20 +13,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
-import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
+import com.wazowski.forviachallenge.presentation.composables.RatingAndDownloadsRow
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
 fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
-    Card(elevation = CardDefaults.cardElevation(
-        defaultElevation = 4.dp
-    ), modifier = modifier
+    ElevatedCard(modifier = modifier
         .width(120.dp)
         .clickable {
             onClick(app.id)
         }
+        .shadow(
+            elevation = 12.dp
+        )
         .padding(horizontal = PADDING_XS.dp)) {
         Column(
             modifier = Modifier.heightIn(min = 100.dp, max = 110.dp),
@@ -56,31 +56,7 @@ fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifie
             )
         )
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 4.dp, vertical = 2.dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = "Rating",
-                    modifier = Modifier.size(14.dp)
-                )
-                Text(text = app.rating.toString(), style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.Download,
-                    contentDescription = "Downloads",
-                    modifier = Modifier.size(PADDING_M.dp)
-                )
-                Text(
-                    text = app.downloads.formatNumber(), style = MaterialTheme.typography.labelSmall
-                )
-            }
-        }
+        RatingAndDownloadsRow(rating = app.rating, downloads = app.downloads)
     }
 }
 

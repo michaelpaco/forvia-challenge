@@ -13,37 +13,38 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.*
 import com.wazowski.forviachallenge.R
+import com.wazowski.forviachallenge.common.conditional
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun HeroImage(imageUrl: Any?) {
+fun HeroImage(imageUrl: Any?, modifier: Modifier = Modifier) {
     val backgroundColor = MaterialTheme.colorScheme.background
 
-    SubcomposeAsyncImage(modifier = Modifier
-        .background(MaterialTheme.colorScheme.background)
-        .fillMaxWidth()
-        .heightIn(120.dp, 320.dp)
-        .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-        .drawWithContent {
-            drawContent()
-            drawRect(
-                brush = Brush.verticalGradient(
-                    listOf(
-                        Color.Transparent, backgroundColor
-                    ), startY = 750f, endY = 0f
-                ), blendMode = BlendMode.DstIn
+    SubcomposeAsyncImage(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.background)
+            .fillMaxWidth()
+            .heightIn(120.dp, 320.dp)
+            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+            .drawWithContent {
+                drawContent()
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        listOf(
+                            Color.Transparent, backgroundColor
+                        ), startY = 750f, endY = 0f
+                    ), blendMode = BlendMode.DstIn
+                )
+            }, contentScale = ContentScale.FillHeight, model = imageUrl, loading = {
+            LoadingIndicator(modifier = Modifier.fillMaxHeight())
+        }, contentDescription = stringResource(R.string.app_name), error = {
+            Image(
+                modifier = Modifier.height(320.dp),
+                contentScale = ContentScale.Crop,
+                painter = painterResource(id = R.drawable.placeholder_hero),
+                contentDescription = "Error loading image"
             )
-        }, contentScale = ContentScale.FillHeight, model = imageUrl, loading = {
-        LoadingIndicator(modifier = Modifier.fillMaxHeight())
-    }, contentDescription = stringResource(R.string.app_name), error = {
-        Image(
-            modifier = Modifier
-                .height(320.dp),
-            contentScale = ContentScale.Crop,
-            painter = painterResource(id = R.drawable.placeholder_hero),
-            contentDescription = "Error loading image"
-        )
-    })
+        })
 }
 
 @Composable
