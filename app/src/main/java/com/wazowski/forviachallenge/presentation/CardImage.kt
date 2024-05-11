@@ -14,12 +14,12 @@ import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun CardImage(imageUrl: Any?) {
-    SubcomposeAsyncImage(modifier = Modifier.fillMaxHeight(),
+fun CardImage(imageUrl: Any?, modifier: Modifier = Modifier) {
+    SubcomposeAsyncImage(modifier = modifier.fillMaxHeight(),
         contentScale = ContentScale.Crop,
         model = imageUrl,
         loading = {
-            LoadingIndicator(modifier = Modifier.fillMaxWidth())
+            LoadingIndicator(modifier = modifier.fillMaxWidth())
         },
         contentDescription = stringResource(R.string.app_name),
         error = {
