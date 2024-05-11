@@ -77,4 +77,15 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             Resource.Error(e.message ?: "An unknown error occurred.")
         }
     }
+
+    override suspend fun getAppsBySimilarRating(rating: Float): Resource<Flow<List<ForviaApp>>> {
+        return try {
+            Resource.Success(
+                data = forviaAppDao.getAppsBySimilarRating(givenRating = rating)
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Resource.Error(e.message ?: "An unknown error occurred.")
+        }
+    }
 }

@@ -24,4 +24,15 @@ interface ForviaAppDao {
     @Query("SELECT * FROM apps ORDER BY added DESC LIMIT 10")
     fun getLatestAddedApps(): Flow<List<ForviaApp>>
 
+    @Query(
+        """
+        SELECT 
+            * 
+        FROM apps 
+        WHERE ABS(rating - :givenRating) <= :threshold
+        ORDER BY ABS(rating - :givenRating) ASC
+        LIMIT 3
+        """
+    )
+    fun getAppsBySimilarRating(givenRating: Float, threshold: Float = 0.5f): Flow<List<ForviaApp>>
 }

@@ -11,4 +11,5 @@ interface ForviaLocalRepository {
     suspend fun deleteAll(): Resource<Unit>
     suspend fun getMostDownloadedApps(): Resource<Flow<List<ForviaApp>>>
     suspend fun getLatestAddedApps(): Resource<Flow<List<ForviaApp>>>
+    suspend fun getAppsBySimilarRating(rating: Float): Resource<Flow<List<ForviaApp>>>
 }
