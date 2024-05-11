@@ -33,7 +33,7 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 @Composable
 fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
     Scaffold(topBar = {
-        TopAppBar(title = { Text(text = "") },
+        TopAppBar(title = {},
             modifier = Modifier.padding(start = PADDING_M.dp),
             colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
             navigationIcon = {

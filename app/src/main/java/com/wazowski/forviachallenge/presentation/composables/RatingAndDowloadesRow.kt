@@ -1,5 +1,6 @@
 package com.wazowski.forviachallenge.presentation.composables
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -9,8 +10,25 @@ import androidx.compose.ui.*
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
 
+enum class IconSize {
+    SMALL,
+    MEDIUM,
+    LARGE
+}
+
+val IconSizeMap = mapOf(
+    IconSize.SMALL to 14,
+    IconSize.MEDIUM to 18,
+    IconSize.LARGE to 24
+)
+
 @Composable
-fun RatingAndDownloadsRow(rating: Float, downloads: Int, modifier: Modifier = Modifier) {
+fun RatingAndDownloadsRow(
+    rating: Float,
+    downloads: Int,
+    modifier: Modifier = Modifier,
+    iconSize: IconSize = IconSize.SMALL
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
@@ -21,22 +39,22 @@ fun RatingAndDownloadsRow(rating: Float, downloads: Int, modifier: Modifier = Mo
             Icon(
                 imageVector = Icons.Filled.Star,
                 contentDescription = "Rating",
-                modifier = Modifier.size(14.dp)
+                modifier = Modifier.size(IconSizeMap[iconSize]!!.dp)
             )
             Text(
                 text = rating.toString(),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelLarge
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = Icons.Filled.Download,
                 contentDescription = "Downloads",
-                modifier = Modifier.size(16.dp)
+                modifier = Modifier.size(IconSizeMap[iconSize]!!.dp)
             )
             Text(
                 text = downloads.formatNumber(),
-                style = MaterialTheme.typography.labelSmall
+                style = MaterialTheme.typography.labelLarge
             )
         }
     }
