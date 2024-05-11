@@ -1,6 +1,7 @@
 package com.wazowski.forviachallenge.presentation.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -8,9 +9,9 @@ import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
-import com.wazowski.forviachallenge.common.Constants.PADDING_M
-import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
+import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.presentation.*
+import com.wazowski.forviachallenge.presentation.composables.AppListElevatedCard
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -19,50 +20,33 @@ fun HomeScreen(
     uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
 ) {
     Scaffold {
-        Column(
-            modifier = Modifier
-                .statusBarsPadding()
-                .padding(top = PADDING_XXL.dp)
-        ) {
+        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
             when (val state = uiState.value) {
                 is HomeUiState.Loading -> {
                     LoadingIndicator(modifier = Modifier.fillMaxSize())
                 }
 
                 is HomeUiState.Success -> {
-                    Column {
-                        Text(
-                            text = "Latest added apps",
-                            style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = PADDING_M.dp)
-                        )
-                        AppListRow(apps = state.latestAddedApps) { app ->
-                            AppListRowCardItem(app = app, onClick = onCardClick)
-                        }
+                    AppListRowWithBackground(
+                        apps = state.latestAddedApps,
+                    ) { app ->
+                        AppListElevatedCard(app = app, onClick = onCardClick)
                     }
 
-                    HorizontalDivider()
-
-                    Column {
-                        Text(
-                            text = "Top downloads",
-                            style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = PADDING_M.dp)
-                        )
-                        AppListRow(apps = state.topDownloadedApps) { app ->
-                            AppListRowCardItem(app = app, onClick = onCardClick)
-                        }
+                    AppListRow(
+                        apps = state.latestAddedApps,
+                        title = "Latest added apps",
+                        modifier = Modifier.padding(top = PADDING_XL.dp)
+                    ) { app ->
+                        AppListRowCardItem(app = app, onClick = onCardClick)
                     }
 
-                    HorizontalDivider()
-
-                    Column {
-                        Text(
-                            text = "All apps",
-                            style = MaterialTheme.typography.headlineMedium,
-                            modifier = Modifier.padding(start = PADDING_M.dp, top = PADDING_M.dp)
-                        )
-                        AppListGrid(apps = state.allApps, onCardClick = { id -> onCardClick(id) })
+                    AppListRow(
+                        apps = state.topDownloadedApps,
+                        title = "Top downloads",
+                        modifier = Modifier.padding(vertical = PADDING_XL.dp)
+                    ) { app ->
+                        AppListRowCardItem(app = app, onClick = onCardClick)
                     }
                 }
 
