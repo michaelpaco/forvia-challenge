@@ -16,6 +16,7 @@ import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
+import com.wazowski.forviachallenge.presentation.composables.RatingAndDownloadsRow
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
@@ -54,31 +55,11 @@ fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier =
             )
         )
 
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = PADDING_XS.dp, vertical = (PADDING_XS / 2).dp)
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.Star,
-                    contentDescription = "Rating",
-                    modifier = Modifier.size(14.dp)
-                )
-                Text(text = app.rating.toString(), style = MaterialTheme.typography.labelSmall)
-            }
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.Download,
-                    contentDescription = "Downloads",
-                    modifier = Modifier.size(12.dp)
-                )
-                Text(
-                    text = app.downloads.formatNumber(), style = MaterialTheme.typography.labelSmall
-                )
-            }
-        }
+        RatingAndDownloadsRow(
+            rating = app.rating,
+            downloads = app.downloads,
+            modifier = Modifier.padding(horizontal = PADDING_XS.dp, vertical = (PADDING_XS / 2).dp)
+        )
     }
 }
 
