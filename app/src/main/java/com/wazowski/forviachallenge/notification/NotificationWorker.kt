@@ -1,7 +1,6 @@
 package com.wazowski.forviachallenge.notification
 
 import android.content.Context
-import android.util.Log
 import androidx.work.*
 import java.util.Calendar
 import java.util.concurrent.TimeUnit

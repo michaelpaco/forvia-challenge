@@ -1,7 +1,5 @@
 package com.wazowski.forviachallenge.common
 
-import androidx.compose.ui.unit.dp
-
 object Constants {
     const val SHORT_ANIMATION_DURATION = 250
     const val MEDIUM_ANIMATION_DURATION = 500

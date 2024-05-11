@@ -1,9 +1,7 @@
-package com.wazowski.forviachallenge.presentation
+package com.wazowski.forviachallenge.presentation.composables
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
@@ -16,7 +14,6 @@ import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
-import com.wazowski.forviachallenge.presentation.composables.RatingAndDownloadsRow
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable

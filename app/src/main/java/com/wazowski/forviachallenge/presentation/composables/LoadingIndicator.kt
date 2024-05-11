@@ -1,4 +1,4 @@
-package com.wazowski.forviachallenge.presentation
+package com.wazowski.forviachallenge.presentation.composables
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.CircularProgressIndicator

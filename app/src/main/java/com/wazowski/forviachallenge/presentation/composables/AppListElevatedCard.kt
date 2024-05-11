@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
-import com.wazowski.forviachallenge.presentation.CardImage
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable

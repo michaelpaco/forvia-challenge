@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.presentation.*
-import com.wazowski.forviachallenge.presentation.composables.AppListElevatedCard
+import com.wazowski.forviachallenge.presentation.composables.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
