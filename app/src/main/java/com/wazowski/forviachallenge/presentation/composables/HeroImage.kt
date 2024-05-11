@@ -23,7 +23,7 @@ fun HeroImage(imageUrl: Any?, modifier: Modifier = Modifier) {
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
-            .heightIn(120.dp, 320.dp)
+            .heightIn(120.dp, 240.dp)
             .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
             .drawWithContent {
                 drawContent()
@@ -31,7 +31,7 @@ fun HeroImage(imageUrl: Any?, modifier: Modifier = Modifier) {
                     brush = Brush.verticalGradient(
                         listOf(
                             Color.Transparent, backgroundColor
-                        ), startY = 750f, endY = 0f
+                        ), startY = 450f, endY = 0f
                     ), blendMode = BlendMode.DstIn
                 )
             }, contentScale = ContentScale.FillHeight, model = imageUrl, loading = {
