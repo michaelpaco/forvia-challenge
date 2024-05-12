@@ -33,6 +33,8 @@ import com.wazowski.forviachallenge.presentation.theme.*
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
+    val openAlertDialog = remember { mutableStateOf(false) }
+
     Scaffold(topBar = {
         TopBar {
             onBackPressed()
@@ -83,7 +85,7 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                                             contentDescription = "Download"
                                         )
                                     },
-                                    onClick = { /*TODO*/ },
+                                    onClick = { openAlertDialog.value = true },
                                     containerColor = Color.Black,
                                     contentColor = Color.LightGray,
                                     modifier = Modifier.fillMaxWidth(0.8f)
@@ -97,6 +99,8 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                             }
                         }
                     }
+
+                    AppDialog(openAlertDialog = openAlertDialog)
                 }
 
                 is DetailsUiState.Loading -> {
