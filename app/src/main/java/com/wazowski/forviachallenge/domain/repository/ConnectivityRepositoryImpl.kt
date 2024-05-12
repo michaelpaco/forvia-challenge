@@ -12,7 +12,7 @@ interface ConnectivityRepository {
 class ConnectivityRepositoryImpl @Inject constructor(context: Context) : ConnectivityRepository {
     private val connectivityManager =
         context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-    private val _isConnected = MutableStateFlow(true)
+    private val _isConnected = MutableStateFlow(false)
 
     override val isConnected = _isConnected.asStateFlow()
 
