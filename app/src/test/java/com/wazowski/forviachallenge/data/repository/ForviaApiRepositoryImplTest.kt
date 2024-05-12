@@ -1,11 +1,10 @@
 package com.wazowski.forviachallenge.data.repository
 
 import com.wazowski.forviachallenge.common.Resource
-import com.wazowski.forviachallenge.data.local.ForviaAppDao
-import com.wazowski.forviachallenge.data.mappers.toForviaApp
+import com.wazowski.forviachallenge.data.mappers.*
 import com.wazowski.forviachallenge.data.remote.*
 import com.wazowski.forviachallenge.domain.model.ForviaApp
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
 
 import org.junit.Before
@@ -42,8 +41,6 @@ class ForviaApiRepositoryImplTest {
         uptype = "aptuploader"
     )
 
-    private val mockApp = mockAppDto.toForviaApp()
-
     private val mockDataset = Datasets(
         All(
             Info("OK", Time(0.03159499168395996, "32 milliseconds")), Data(
@@ -59,22 +56,22 @@ class ForviaApiRepositoryImplTest {
     }
 
     @Test
-    fun `getAppsList success test`() = runBlocking {
+    fun `getAppsList success test`() = runTest {
         val offset = 0
-        `when`(api.getAppsList(offset)).thenReturn(ForviaDatasetDto(mockDataset))
-        val result = repository.getAllApps(offset)
-
-        assertEquals(
-            Resource.Success(listOf(mockApp)).data?.first()?.name, result.data?.first()?.name
-        )
+        val limit = 0
+        val mockForviaDatasetDto = ForviaDatasetDto(mockDataset)
+        `when`(api.getAppsList(offset, limit)).thenReturn(mockForviaDatasetDto)
+        val result = repository.getAllApps(offset, limit)
+        assertEquals(mockForviaDatasetDto.datasets.toForviaAppList(), result.data)
     }
 
     @Test
-    fun `getAppsList error test`() = runBlocking {
+    fun `getAppsList error test`() = runTest {
         val offset = 0
+        val limit = 0
         val errorMsg = "Some error occurred"
-        `when`(api.getAppsList(offset)).thenThrow(RuntimeException(errorMsg))
-        val result = repository.getAllApps(offset)
+        `when`(api.getAppsList(offset, limit)).thenThrow(RuntimeException(errorMsg))
+        val result = repository.getAllApps(offset, limit)
         assertEquals(Resource.Error<List<ForviaApp>>(errorMsg).message, result.message)
     }
 }

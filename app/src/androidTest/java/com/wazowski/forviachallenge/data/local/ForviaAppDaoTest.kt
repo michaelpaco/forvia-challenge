@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.test.*
 import org.junit.*
 import javax.inject.*
+import kotlin.math.abs
 
 @HiltAndroidTest
 @SmallTest
@@ -42,25 +43,57 @@ class ForviaAppDaoTest {
 
     @Test
     fun insertAll() = testScope.runTest {
-        val forviaApp = allApps.first()
-        val forviaAppList = listOf(forviaApp)
-
+        val forviaAppList = allApps.toList()
         forviaAppDao.insertAll(forviaAppList)
-
-        val elements = forviaAppDao.getAll().take(1).toList()
-        assert(forviaAppList.contains(elements[0].first()))
+        val allApps = forviaAppDao.getAll(allApps.size).firstOrNull()
+        assert(allApps != null && allApps.size == forviaAppList.size)
     }
 
     @Test
     fun getById() = testScope.runTest {
-        val first = allApps.first()
-        val last = allApps.last()
-        val forviaAppList = listOf(first, last)
-
+        val forviaAppList = allApps.toList()
         forviaAppDao.insertAll(forviaAppList)
-
-        val found = forviaAppDao.getById(first.id)
-
-        assert(found.name == first.name)
+        val found = forviaAppDao.getById(forviaAppList.first().id)
+        assert(found.name == forviaAppList.first().name)
     }
+
+    @Test
+    fun deleteAll() = testScope.runTest {
+        val forviaAppList = allApps.toList()
+        forviaAppDao.insertAll(forviaAppList)
+        forviaAppDao.deleteAll()
+        val allApps = forviaAppDao.getAll(20).firstOrNull()
+        assert(allApps.isNullOrEmpty())
+    }
+
+    @Test
+    fun getMostDownloadedApps() = testScope.runTest {
+        val forviaAppList = allApps.sortedByDescending { it.downloads }
+        forviaAppDao.insertAll(forviaAppList)
+        val mostDownloadedApps = forviaAppDao.getMostDownloadedApps().firstOrNull()
+
+        assert(mostDownloadedApps != null && mostDownloadedApps == forviaAppList)
+    }
+
+    @Test
+    fun getLatestAddedApps() = testScope.runTest {
+        val forviaAppList = allApps.sortedByDescending { it.added }
+        forviaAppDao.insertAll(forviaAppList)
+        val latestAddedApps = forviaAppDao.getLatestAddedApps().firstOrNull()
+
+        assert(latestAddedApps != null && latestAddedApps == forviaAppList)
+    }
+
+    @Test
+    fun getAppsBySimilarRating() = testScope.runTest {
+        val givenRating = 3.5f
+        val threshold = 0.5f
+        val similarRatingApps = allApps.filter { abs(it.rating - givenRating) <= threshold }
+            .sortedByDescending { it.rating }
+        forviaAppDao.insertAll(allApps)
+        val appsBySimilarRating =
+            forviaAppDao.getAppsBySimilarRating(givenRating, threshold).firstOrNull()
+        assert(appsBySimilarRating != null && appsBySimilarRating == similarRatingApps)
+    }
+
 }
