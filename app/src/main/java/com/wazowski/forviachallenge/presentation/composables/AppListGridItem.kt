@@ -55,7 +55,8 @@ fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier =
         RatingAndDownloadsRow(
             rating = app.rating,
             downloads = app.downloads,
-            modifier = Modifier.padding(horizontal = PADDING_XS.dp, vertical = (PADDING_XS / 2).dp)
+            modifier = Modifier.padding(horizontal = PADDING_XS.dp, vertical = (PADDING_XS / 2).dp),
+            iconSize = IconSize.SMALL
         )
     }
 }
