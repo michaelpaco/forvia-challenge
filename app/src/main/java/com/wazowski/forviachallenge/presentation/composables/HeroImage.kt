@@ -8,6 +8,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -19,31 +20,43 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 fun HeroImage(imageUrl: Any?, modifier: Modifier = Modifier) {
     val backgroundColor = MaterialTheme.colorScheme.background
 
-    SubcomposeAsyncImage(
-        modifier = modifier
-            .background(MaterialTheme.colorScheme.background)
-            .fillMaxWidth()
-            .heightIn(120.dp, 220.dp)
-            .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
-            .drawWithContent {
-                drawContent()
-                drawRect(
-                    brush = Brush.verticalGradient(
-                        listOf(
-                            Color.Transparent, backgroundColor
-                        ), startY = 450f, endY = 0f
-                    ), blendMode = BlendMode.DstIn
-                )
-            }, contentScale = ContentScale.FillHeight, model = imageUrl, loading = {
-            LoadingIndicator(modifier = Modifier.fillMaxHeight())
-        }, contentDescription = stringResource(R.string.app_name), error = {
-            Image(
-                modifier = Modifier.height(320.dp),
-                contentScale = ContentScale.Crop,
-                painter = painterResource(id = R.drawable.placeholder_hero),
-                contentDescription = "Error loading image"
+    val imageModifier = modifier
+        .background(MaterialTheme.colorScheme.background)
+        .fillMaxWidth()
+        .heightIn(120.dp, 200.dp)
+        .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
+        .drawWithContent {
+            drawContent()
+            drawRect(
+                brush = Brush.verticalGradient(
+                    listOf(
+                        Color.Transparent, backgroundColor
+                    ), startY = 450f, endY = 0f
+                ), blendMode = BlendMode.DstIn
             )
-        })
+        }
+
+    if (LocalInspectionMode.current) {
+        Image(
+            modifier = imageModifier,
+            painter = painterResource(id = R.drawable.placeholder_hero),
+            contentDescription = "Preview"
+        )
+    } else {
+        SubcomposeAsyncImage(
+            modifier = imageModifier,
+            contentScale = ContentScale.FillHeight,
+            model = imageUrl,
+            contentDescription = stringResource(R.string.app_name),
+            error = {
+                Image(
+                    modifier = Modifier.height(320.dp),
+                    contentScale = ContentScale.Crop,
+                    painter = painterResource(id = R.drawable.placeholder_hero),
+                    contentDescription = "Error loading image"
+                )
+            })
+    }
 }
 
 @Composable

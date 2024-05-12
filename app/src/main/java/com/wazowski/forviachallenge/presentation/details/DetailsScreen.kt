@@ -93,13 +93,13 @@ fun DetailsScreen(
                                 ExtendedFloatingActionButton(
                                     text = {
                                         Text(
-                                            text = "Download", fontWeight = FontWeight.Bold
+                                            text = stringResource(R.string.detail_screen_download_button), fontWeight = FontWeight.Bold
                                         )
                                     },
                                     icon = {
                                         Icon(
                                             imageVector = Icons.Filled.Download,
-                                            contentDescription = "Download"
+                                            contentDescription = stringResource(R.string.detail_screen_download_button)
                                         )
                                     },
                                     onClick = { openAlertDialog.value = true },

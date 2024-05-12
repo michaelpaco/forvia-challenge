@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Forvia Challenge</string>
+    <string name="list_popular">Popular</string>
+    <string name="list_all">All</string>
+    <string name="list_latest_added">Latest added</string>
+    <string name="list_highest_rates_month">Highest rates this month</string>
+    <string name="error_no_content">No content to show</string>
+    <string name="error_no_connection">No internet connection</string>
+    <string name="list_highlights_message">What are you looking for today?</string>
+    <string name="notifications_title">New apps available!</string>
+    <string name="notification_channel_name">New Apps Reminders</string>
+    <string name="notification_channel_description">This notification channel is used to nofity the user of new apps in our catalog.</string>
+    <string name="detail_screen_download_button">Download</string>
 </resources>

@@ -5,16 +5,12 @@ import android.app.*
 import android.content.*
 import androidx.core.app.*
 import com.wazowski.forviachallenge.R
+import com.wazowski.forviachallenge.common.Constants.DEFAULT_NOTIFICATIONS_MESSAGES
 import com.wazowski.forviachallenge.presentation.MainActivity
 
 object ForviaNotificationHandler {
     private const val CHANNEL_ID = "new_apps_reminder"
-
-    private val notificationMessages = listOf(
-        "Discover exciting new apps in the store. Tap to explore and find your next favorite app.",
-        "Get the latest apps and updates. Explore now!",
-        "Find amazing apps waiting for you. Check them out now!"
-    )
+    private val notificationMessages = DEFAULT_NOTIFICATIONS_MESSAGES
 
     @SuppressLint("MissingPermission")
     fun createReminderNotification(context: Context) {
@@ -36,15 +32,15 @@ object ForviaNotificationHandler {
         )
 
         return NotificationCompat.Builder(context, CHANNEL_ID).setSmallIcon(R.mipmap.ic_launcher)
-            .setContentTitle("New apps available!").setContentText(notificationMessages.random())
+            .setContentTitle(context.getString(R.string.notifications_title)).setContentText(notificationMessages.random())
             .setPriority(NotificationCompat.PRIORITY_HIGH).setContentIntent(pendingIntent)
             .setAutoCancel(true).setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
     }
 
     private fun createNotificationChannel(context: Context) {
-        val name = "New Apps Reminders"
+        val name = context.getString(R.string.notification_channel_name)
         val descriptionText =
-            "This notification channel is used to nofity the user of new apps in our catalog."
+            context.getString(R.string.notification_channel_description)
         val importance = NotificationManager.IMPORTANCE_HIGH
         val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
             description = descriptionText

@@ -133,8 +133,5 @@ dependencies {
 
     // For instrumented tests.
     androidTestImplementation("com.google.dagger:hilt-android-testing:$hilt_version")
-    // ...with Kotlin.
     kaptAndroidTest("com.google.dagger:hilt-android-compiler:$hilt_version")
-    // ...with Java.
-    androidTestAnnotationProcessor("com.google.dagger:hilt-android-compiler:$hilt_version")
 }

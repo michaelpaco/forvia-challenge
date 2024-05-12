@@ -1,5 +1,6 @@
 package com.wazowski.forviachallenge.data.repository
 
+import com.wazowski.forviachallenge.common.Constants.UNKNOWN_ERROR_MESSAGE
 import com.wazowski.forviachallenge.common.Resource
 import com.wazowski.forviachallenge.data.local.ForviaAppDao
 import com.wazowski.forviachallenge.domain.model.ForviaApp
@@ -18,7 +19,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -29,7 +30,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -42,7 +43,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -52,7 +53,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             Resource.Success()
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -63,7 +64,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -74,7 +75,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 
@@ -85,7 +86,7 @@ class ForviaLocalRepositoryImpl @Inject constructor(
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            Resource.Error(e.message ?: "An unknown error occurred.")
+            Resource.Error(e.message ?: UNKNOWN_ERROR_MESSAGE)
         }
     }
 }

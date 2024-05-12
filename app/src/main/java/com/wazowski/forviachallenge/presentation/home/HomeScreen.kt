@@ -6,10 +6,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.*
 import androidx.compose.ui.unit.dp
+import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
-import com.wazowski.forviachallenge.common.Constants.PADDING_XL
+import com.wazowski.forviachallenge.common.Constants.PADDING_L
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.composables.*
 import com.wazowski.forviachallenge.presentation.error.ErrorMessage
@@ -38,17 +40,16 @@ fun HomeScreen(
 
                         AppListRow(
                             apps = state.latestAddedApps,
-                            title = "Latest added",
-                            modifier = Modifier.padding(top = PADDING_XL.dp),
-                            onSeeMoreApps = onSeeMoreClick
+                            title = stringResource(id = R.string.list_latest_added),
+                            modifier = Modifier.padding(top = PADDING_L.dp),
                         ) { app ->
                             AppListRowCardItem(app = app, onClick = onCardClick)
                         }
 
                         AppListRow(
                             apps = state.allApps,
-                            title = "All",
-                            modifier = Modifier.padding(vertical = PADDING_XL.dp),
+                            title = stringResource(id = R.string.list_all),
+                            modifier = Modifier.padding(vertical = PADDING_L.dp),
                             onSeeMoreApps = onSeeMoreClick
                         ) { app ->
                             AppListRowCardItem(app = app, onClick = onCardClick)
@@ -57,11 +58,11 @@ fun HomeScreen(
                 }
 
                 is HomeUiState.Empty -> {
-                    ErrorMessage("No content to show")
+                    ErrorMessage(message = stringResource(R.string.error_no_content))
                 }
 
                 is HomeUiState.Error -> {
-                    ErrorMessage("No internet connection")
+                    ErrorMessage(message = stringResource(R.string.error_no_connection))
                 }
             }
         }

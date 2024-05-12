@@ -80,7 +80,7 @@ class SeeMoreViewModel @Inject constructor(
 
                 is Resource.Error -> {
                     result.message?.let {
-                        _uiState.value = SeeMoreUiState.Error(message = "No internet connection")
+                        _uiState.value = SeeMoreUiState.Error(message = it)
                     }
                 }
             }

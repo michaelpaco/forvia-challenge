@@ -123,7 +123,7 @@ class HomeViewModel @Inject constructor(
 
                 is Resource.Error -> {
                     result.message?.let {
-                        _uiState.value = HomeUiState.Error(message = "No internet connection")
+                        _uiState.value = HomeUiState.Error(message = it)
                     }
                 }
             }

@@ -70,7 +70,7 @@ class DetailsViewModel @Inject constructor(
             }
 
             is Resource.Error -> {
-                _uiState.value = DetailsUiState.Error("There was an error, try again.")
+                _uiState.value = DetailsUiState.Error(message = result.message ?: "")
             }
         }
     }

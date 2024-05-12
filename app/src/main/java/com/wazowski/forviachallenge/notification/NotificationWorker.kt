@@ -40,7 +40,7 @@ class ForviaNotificationWorker(
                 .build()
 
             WorkManager.getInstance(appContext).enqueueUniquePeriodicWork(
-                "reminder_notification_work", ExistingPeriodicWorkPolicy.UPDATE, notificationRequest
+                REMINDER_TAG, ExistingPeriodicWorkPolicy.UPDATE, notificationRequest
             )
         }
     }

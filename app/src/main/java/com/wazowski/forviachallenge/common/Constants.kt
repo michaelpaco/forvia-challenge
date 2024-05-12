@@ -1,5 +1,7 @@
 package com.wazowski.forviachallenge.common
 
+import com.wazowski.forviachallenge.R
+
 object Constants {
     const val SHORT_ANIMATION_DURATION = 250
     const val MEDIUM_ANIMATION_DURATION = 500
@@ -17,5 +19,15 @@ object Constants {
 
     const val SEE_MORE_FETCH_ALL_LIMIT = 200
     const val FETCH_ALL_LIMIT = 30
-    const val POPULAR_APPS_TITLE = "Popular"
+
+    val POPULAR_APPS_TITLE = R.string.list_popular
+    val ALL_APPS_TITLE = R.string.list_all
+
+    val DEFAULT_NOTIFICATIONS_MESSAGES = listOf(
+        "Discover exciting new apps in the store. Tap to explore and find your next favorite app.",
+        "Get the latest apps and updates. Explore now!",
+        "Find amazing apps waiting for you. Check them out now!"
+    )
+
+    const val UNKNOWN_ERROR_MESSAGE = "An unknown error occurred."
 }

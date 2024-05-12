@@ -146,7 +146,9 @@ class MainActivity : ComponentActivity() {
                                     }
                                 }
 
-                                DetailsScreen(uiState = detailsUiState, onBackPressed = {
+                                DetailsScreen(uiState = detailsUiState, onCardClick = { appId ->
+                                    navController.navigate("app/$appId")
+                                }, onBackPressed = {
                                     navController.popBackStack()
                                 })
                             }
