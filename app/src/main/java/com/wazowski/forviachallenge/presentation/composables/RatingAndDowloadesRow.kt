@@ -16,7 +16,7 @@ enum class IconSize {
 }
 
 val IconSizeMap = mapOf(
-    IconSize.SMALL to 14,
+    IconSize.SMALL to 12,
     IconSize.MEDIUM to 18,
     IconSize.LARGE to 24
 )
@@ -32,7 +32,7 @@ fun RatingAndDownloadsRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp, vertical = 2.dp)
+            .padding(horizontal = 3.dp, vertical = 2.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
@@ -42,7 +42,7 @@ fun RatingAndDownloadsRow(
             )
             Text(
                 text = rating.toString(),
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelMedium
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -53,7 +53,7 @@ fun RatingAndDownloadsRow(
             )
             Text(
                 text = downloads.formatNumber(),
-                style = MaterialTheme.typography.labelLarge
+                style = MaterialTheme.typography.labelMedium
             )
         }
     }

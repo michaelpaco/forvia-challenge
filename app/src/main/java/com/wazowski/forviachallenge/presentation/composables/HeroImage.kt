@@ -23,7 +23,7 @@ fun HeroImage(imageUrl: Any?, modifier: Modifier = Modifier) {
         modifier = modifier
             .background(MaterialTheme.colorScheme.background)
             .fillMaxWidth()
-            .heightIn(120.dp, 240.dp)
+            .heightIn(120.dp, 220.dp)
             .graphicsLayer(compositingStrategy = CompositingStrategy.Offscreen)
             .drawWithContent {
                 drawContent()

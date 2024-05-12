@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import coil.compose.SubcomposeAsyncImage
 import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.common.*
@@ -27,31 +27,21 @@ import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.composables.*
-import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
+import com.wazowski.forviachallenge.presentation.error.ErrorMessage
+import com.wazowski.forviachallenge.presentation.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
     Scaffold(topBar = {
-        TopAppBar(title = {},
-            modifier = Modifier.padding(start = PADDING_M.dp),
-            colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
-            navigationIcon = {
-                FilledTonalIconButton(
-                    onClick = onBackPressed, modifier = Modifier.size(44.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Back"
-                    )
-                }
-            })
+        TopBar {
+            onBackPressed()
+        }
     }) {
         Column {
             when (val state = uiState.value) {
                 is DetailsUiState.Success -> {
-                    Column(verticalArrangement = Arrangement.spacedBy((-32).dp)) {
+                    Column {
                         HeroImage(imageUrl = state.app.graphic)
                         Column(
                             modifier = Modifier
@@ -60,7 +50,6 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                                     color = MaterialTheme.colorScheme.surface,
                                     shape = RoundedCornerShape(24.dp)
                                 )
-                                .zIndex(6f)
                                 .graphicsLayer {
                                     translationY = -232f
                                 },
@@ -100,11 +89,27 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                                     modifier = Modifier.fillMaxWidth(0.8f)
                                 )
                             }
+
+                            RelatedAppsListRowWithBackground(
+                                apps = state.relatedApps,
+                            ) { app ->
+                                RelatedAppElevatedCard(app = app, onClick = { })
+                            }
                         }
                     }
                 }
 
-                else -> {}
+                is DetailsUiState.Loading -> {
+                    LoadingIndicator(modifier = Modifier.fillMaxSize())
+                }
+
+                is DetailsUiState.Empty -> {
+                    ErrorMessage("No content to show")
+                }
+
+                is DetailsUiState.Error -> {
+                    ErrorMessage("No internet connection")
+                }
             }
         }
     }
@@ -251,7 +256,7 @@ private fun RatingBar(rating: Float) {
 fun DetailsScreenDataPreview() {
     val uiState = remember {
         mutableStateOf(
-            DetailsUiState.Success(app = allApps.first())
+            DetailsUiState.Success(app = allApps.first(), relatedApps = allApps.subList(0, 2))
         )
     }
 
