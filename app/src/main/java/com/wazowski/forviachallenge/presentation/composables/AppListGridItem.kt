@@ -18,9 +18,7 @@ import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
 fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier = Modifier) {
-    Card(elevation = CardDefaults.cardElevation(
-        defaultElevation = 4.dp
-    ), modifier = modifier
+    ElevatedCard(modifier = modifier
         .fillMaxWidth()
         .clickable {
             onClick(app.id)
@@ -32,7 +30,7 @@ fun AppListGridItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifier =
                 Image(
                     modifier = Modifier.fillMaxWidth(),
                     painter = painterResource(id = R.drawable.playstore),
-                    contentDescription = "Preview"
+                    contentDescription = "Preview placeholder"
                 )
             } else {
                 CardImage(imageUrl = app.icon)

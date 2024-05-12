@@ -8,10 +8,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.ALL_APPS_TITLE
 import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
@@ -27,7 +29,8 @@ fun AppListRow(
     onSeeMoreApps: (() -> Unit)? = null,
     content: @Composable (ForviaApp) -> Unit
 ) {
-    val hasBackground = title == POPULAR_APPS_TITLE || title == ""
+    val hasBackground = title == stringResource(id = POPULAR_APPS_TITLE) || title == ""
+    val isAllAppsList = title == stringResource(id = ALL_APPS_TITLE)
 
     Column(
         modifier = modifier
@@ -35,22 +38,27 @@ fun AppListRow(
         if (title.isNotEmpty()) Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(
-                start = PADDING_XL.dp, bottom = PADDING_M.dp
-            ).fillMaxWidth()
+            modifier = Modifier
+                .padding(
+                    start = PADDING_XL.dp, bottom = PADDING_M.dp
+                )
+                .fillMaxWidth()
         ) {
             Text(
                 title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = if (hasBackground) Color.White else Color.Black
+                color = if (hasBackground) Color.White else MaterialTheme.colorScheme.onSurface
             )
 
-            IconButton(onClick = { onSeeMoreApps?.invoke() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
-                    contentDescription = Icons.AutoMirrored.Filled.ArrowForwardIos.name
-                )
+            if (isAllAppsList) {
+                IconButton(onClick = { onSeeMoreApps?.invoke() }) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowForwardIos,
+                        contentDescription = Icons.AutoMirrored.Filled.ArrowForwardIos.name,
+                        tint = if (hasBackground) Color.White else MaterialTheme.colorScheme.onSurface
+                    )
+                }
             }
         }
         LazyRow(

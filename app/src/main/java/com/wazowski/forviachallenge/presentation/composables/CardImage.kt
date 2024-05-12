@@ -14,9 +14,13 @@ import com.wazowski.forviachallenge.R
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @Composable
-fun CardImage(imageUrl: Any?, modifier: Modifier = Modifier) {
+fun CardImage(
+    modifier: Modifier = Modifier,
+    imageUrl: Any?,
+    contentScale: ContentScale = ContentScale.Crop
+) {
     SubcomposeAsyncImage(modifier = modifier.fillMaxHeight(),
-        contentScale = ContentScale.Crop,
+        contentScale = contentScale,
         model = imageUrl,
         loading = {
             LoadingIndicator(modifier = modifier.fillMaxWidth())
@@ -39,7 +43,7 @@ fun CardImagePreview() {
                 .height(110.dp)
                 .width(110.dp)
         ) {
-            CardImage(R.drawable.playstore)
+            CardImage(imageUrl = R.drawable.playstore)
         }
     }
 }

@@ -11,8 +11,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
-import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.*
 
@@ -20,33 +20,33 @@ import com.wazowski.forviachallenge.presentation.theme.*
 fun RelatedAppsListRowWithBackground(
     apps: List<ForviaApp>, content: @Composable (ForviaApp) -> Unit
 ) {
-    Box(
+    Column(
         modifier = Modifier
-            .height(340.dp)
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .offset(y = 32.dp)
             .background(
-                LocalCustomPalette.current.extraColor1,
-                shape = RoundedCornerShape(0, 0, 0, 8)
+                LocalCustomPalette.current.listBackground,
+                shape = RoundedCornerShape(0, 8, 0, 0)
             )
     ) {
         Text(
             text = "Apps with similar rating",
             color = Color.White,
             modifier = Modifier
-                .align(Alignment.CenterStart)
-                .padding(bottom = PADDING_XXL.dp.multiply(2.8f), start = PADDING_XL.dp)
+                .padding(top = PADDING_M.dp, start = PADDING_XL.dp)
                 .fillMaxWidth(.8f),
             letterSpacing = 2.sp,
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold
-
         )
 
         AppListRow(
             apps = apps, modifier = Modifier
-                .align(Alignment.BottomStart)
                 .padding(
-                    vertical = PADDING_XL.dp
+                    top = PADDING_M.dp,
                 )
+                .fillMaxHeight()
         ) { app ->
             content(app)
         }
@@ -57,7 +57,7 @@ fun RelatedAppsListRowWithBackground(
 @Composable
 fun RelatedAppsListRowWithBackgroundPreview() {
     ForviaChallengeTheme {
-        Surface {
+        Surface(modifier = Modifier.height(250.dp)) {
             RelatedAppsListRowWithBackground(allApps) { app ->
                 RelatedAppElevatedCard(app, onClick = {})
             }

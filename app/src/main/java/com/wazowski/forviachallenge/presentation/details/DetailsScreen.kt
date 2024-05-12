@@ -13,8 +13,10 @@ import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.*
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import coil.compose.SubcomposeAsyncImage
@@ -23,6 +25,7 @@ import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.MAX_STARS
 import com.wazowski.forviachallenge.common.Constants.PADDING_L
 import com.wazowski.forviachallenge.common.Constants.PADDING_M
+import com.wazowski.forviachallenge.common.Constants.PADDING_S
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.*
@@ -32,7 +35,11 @@ import com.wazowski.forviachallenge.presentation.theme.*
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
+fun DetailsScreen(
+    uiState: State<DetailsUiState>,
+    onCardClick: (Int) -> Unit,
+    onBackPressed: () -> Unit
+) {
     val openAlertDialog = remember { mutableStateOf(false) }
 
     Scaffold(topBar = {
@@ -40,23 +47,31 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
             onBackPressed()
         }
     }) {
-        Column {
-            when (val state = uiState.value) {
-                is DetailsUiState.Success -> {
-                    Column {
+        when (val state = uiState.value) {
+            is DetailsUiState.Success -> {
+                Column(
+                    modifier = Modifier
+                        .background(
+                            color = LocalCustomPalette.current.listBackground
+                        )
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .background(
+                                color = Color.Transparent,
+                                shape = RoundedCornerShape(24.dp)
+                            )
+                    ) {
                         HeroImage(imageUrl = state.app.graphic)
+
                         Column(
                             modifier = Modifier
-                                .fillMaxHeight()
+                                .offset(y = (-92).dp)
                                 .background(
-                                    color = MaterialTheme.colorScheme.surface,
+                                    color = Color.Transparent,
                                     shape = RoundedCornerShape(24.dp)
                                 )
-                                .graphicsLayer {
-                                    translationY = -232f
-                                },
-
-                            ) {
+                        ) {
                             AppIconRow(icon = state.app.icon)
 
                             RatingRow(rating = state.app.rating)
@@ -71,7 +86,9 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                                 horizontalArrangement = Arrangement.Center,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(top = PADDING_L.dp)
+                                    .background(
+                                        color = MaterialTheme.colorScheme.surface,
+                                    )
                             ) {
                                 ExtendedFloatingActionButton(
                                     text = {
@@ -86,34 +103,39 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
                                         )
                                     },
                                     onClick = { openAlertDialog.value = true },
-                                    containerColor = Color.Black,
+                                    containerColor = LocalCustomPalette.current.buttonBackground,
                                     contentColor = Color.LightGray,
-                                    modifier = Modifier.fillMaxWidth(0.8f)
+                                    modifier = Modifier
+                                        .fillMaxWidth(0.8f)
+                                        .padding(vertical = PADDING_L.dp)
                                 )
                             }
 
                             RelatedAppsListRowWithBackground(
                                 apps = state.relatedApps,
                             ) { app ->
-                                RelatedAppElevatedCard(app = app, onClick = { })
+                                RelatedAppElevatedCard(
+                                    app = app,
+                                    onClick = onCardClick
+                                )
                             }
                         }
                     }
-
-                    AppDialog(openAlertDialog = openAlertDialog)
                 }
 
-                is DetailsUiState.Loading -> {
-                    LoadingIndicator(modifier = Modifier.fillMaxSize())
-                }
+                AppDialog(openAlertDialog = openAlertDialog)
+            }
 
-                is DetailsUiState.Empty -> {
-                    ErrorMessage("No content to show")
-                }
+            is DetailsUiState.Loading -> {
+                LoadingIndicator(modifier = Modifier.fillMaxSize())
+            }
 
-                is DetailsUiState.Error -> {
-                    ErrorMessage("No internet connection")
-                }
+            is DetailsUiState.Empty -> {
+                ErrorMessage("No content to show")
+            }
+
+            is DetailsUiState.Error -> {
+                ErrorMessage("No internet connection")
             }
         }
     }
@@ -121,20 +143,47 @@ fun DetailsScreen(uiState: State<DetailsUiState>, onBackPressed: () -> Unit) {
 
 @Composable
 private fun AppIconRow(icon: String) {
+    val surfaceColor = MaterialTheme.colorScheme.surface
+
     Row(
-        horizontalArrangement = Arrangement.Center, modifier = Modifier.fillMaxWidth()
+        horizontalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .fillMaxWidth()
+            .drawWithContent {
+                drawRect(
+                    brush = Brush.verticalGradient(
+                        listOf(
+                            Color.Transparent, surfaceColor
+                        ), startY = 0f, endY = 250f
+                    )
+                )
+                drawContent()
+
+            }
     ) {
-        SubcomposeAsyncImage(
-            modifier = Modifier
-                .clip(CircleShape)
-                .size(128.dp),
-            contentScale = ContentScale.FillHeight,
-            model = icon,
-            loading = {
-                LoadingIndicator(modifier = Modifier.fillMaxHeight())
-            },
-            contentDescription = stringResource(R.string.app_name)
-        )
+        if (LocalInspectionMode.current) {
+            Image(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(128.dp),
+                contentScale = ContentScale.FillHeight,
+                painter = painterResource(id = R.drawable.playstore),
+                contentDescription = "Preview"
+            )
+        } else {
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(128.dp),
+                contentScale = ContentScale.FillHeight,
+                model = icon,
+                loading = {
+                    LoadingIndicator(modifier = Modifier.fillMaxHeight())
+                },
+                contentDescription = stringResource(R.string.app_name)
+            )
+        }
+
     }
 }
 
@@ -163,11 +212,19 @@ private fun AppInfoTextValue(
 
 @Composable
 private fun AppInfoRow(app: ForviaApp) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+            )
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = PADDING_M.dp),
+                .padding(top = PADDING_M.dp)
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                ),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             CentrallyArrangedColumn {
@@ -193,7 +250,9 @@ private fun RatingRow(rating: Float) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = PADDING_XS.dp),
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+            ),
         verticalAlignment = Alignment.Bottom,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -208,12 +267,18 @@ fun AppNameAndStore(appName: String, storeName: String) {
         verticalArrangement = Arrangement.spacedBy(6.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = PADDING_XS.dp)
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+            ),
     ) {
         Text(
             text = appName,
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(top = PADDING_XS.dp, start = PADDING_S.dp, end = PADDING_S.dp)
+
         )
         Text(
             text = "by $storeName",
@@ -265,6 +330,6 @@ fun DetailsScreenDataPreview() {
     }
 
     ForviaChallengeTheme {
-        DetailsScreen(uiState = uiState, {})
+        DetailsScreen(uiState = uiState, onCardClick = {}, onBackPressed = {})
     }
 }

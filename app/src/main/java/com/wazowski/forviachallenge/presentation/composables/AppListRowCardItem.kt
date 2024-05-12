@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.*
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.*
@@ -24,9 +23,6 @@ fun AppListRowCardItem(app: ForviaApp, onClick: (Int) -> Unit, modifier: Modifie
         .clickable {
             onClick(app.id)
         }
-        .shadow(
-            elevation = 12.dp
-        )
         .padding(horizontal = PADDING_XS.dp)) {
         Column(
             modifier = Modifier.heightIn(min = 100.dp, max = 110.dp),
