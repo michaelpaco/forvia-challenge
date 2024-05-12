@@ -59,6 +59,7 @@ class DetailsViewModel @Inject constructor(
     }
 
     suspend fun getAppById(appId: Int) = withContext(Dispatchers.IO) {
+        _uiState.value = DetailsUiState.Loading
         when (val result = forviaLocalRepository.getAppById(appId = appId)) {
             is Resource.Success -> {
                 result.data?.let { app ->
@@ -67,6 +68,7 @@ class DetailsViewModel @Inject constructor(
                     collectRelatedApps(givenRating = app.rating)
                 }
             }
+
             is Resource.Error -> {
                 _uiState.value = DetailsUiState.Error("There was an error, try again.")
             }

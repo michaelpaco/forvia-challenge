@@ -106,6 +106,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getAppsList(isInDebugMode: Boolean = false, limit: Int = 30) {
+        _uiState.value = HomeUiState.Loading
         viewModelScope.launch {
             when (val result = forviaApiRepository.getAllApps(
                 offset = if (isInDebugMode) Random.nextInt(

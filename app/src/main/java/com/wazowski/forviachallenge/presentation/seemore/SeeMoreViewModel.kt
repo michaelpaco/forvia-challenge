@@ -46,6 +46,7 @@ class SeeMoreViewModel @Inject constructor(
     }
 
     private fun collectAllApps() {
+        _uiState.value = SeeMoreUiState.Loading
         viewModelScope.launch {
             when (val result =
                 forviaLocalRepository.getAllApps(limit = SEE_MORE_FETCH_ALL_LIMIT)) {
