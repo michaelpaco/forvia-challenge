@@ -12,62 +12,56 @@ import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.composables.*
+import com.wazowski.forviachallenge.presentation.error.ErrorMessage
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun HomeScreen(
-    uiState: State<HomeUiState>, onCardClick: (Int) -> Unit,
+    uiState: State<HomeUiState>, onCardClick: (Int) -> Unit, onSeeMoreClick: () -> Unit
 ) {
     Scaffold {
-        Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+        Column {
             when (val state = uiState.value) {
                 is HomeUiState.Loading -> {
                     LoadingIndicator(modifier = Modifier.fillMaxSize())
                 }
 
                 is HomeUiState.Success -> {
-                    AppListRowWithBackground(
-                        apps = state.latestAddedApps,
-                    ) { app ->
-                        AppListElevatedCard(app = app, onClick = onCardClick)
-                    }
+                    Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
 
-                    AppListRow(
-                        apps = state.latestAddedApps,
-                        title = "Latest added apps",
-                        modifier = Modifier.padding(top = PADDING_XL.dp)
-                    ) { app ->
-                        AppListRowCardItem(app = app, onClick = onCardClick)
-                    }
+                        AppListRowWithBackground(
+                            apps = state.topDownloadedApps,
+                        ) { app ->
+                            AppListElevatedCard(app = app, onClick = onCardClick)
+                        }
 
-                    AppListRow(
-                        apps = state.topDownloadedApps,
-                        title = "Top downloads",
-                        modifier = Modifier.padding(vertical = PADDING_XL.dp)
-                    ) { app ->
-                        AppListRowCardItem(app = app, onClick = onCardClick)
+                        AppListRow(
+                            apps = state.latestAddedApps,
+                            title = "Latest added",
+                            modifier = Modifier.padding(top = PADDING_XL.dp),
+                            onSeeMoreApps = onSeeMoreClick
+                        ) { app ->
+                            AppListRowCardItem(app = app, onClick = onCardClick)
+                        }
+
+                        AppListRow(
+                            apps = state.allApps,
+                            title = "All",
+                            modifier = Modifier.padding(vertical = PADDING_XL.dp),
+                            onSeeMoreApps = onSeeMoreClick
+                        ) { app ->
+                            AppListRowCardItem(app = app, onClick = onCardClick)
+                        }
                     }
                 }
 
                 is HomeUiState.Empty -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = "No content to show")
-                    }
+                    ErrorMessage("No content to show")
                 }
 
                 is HomeUiState.Error -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(text = state.message)
-                    }
+                    ErrorMessage("No internet connection")
                 }
             }
         }
@@ -85,7 +79,8 @@ fun HomeScreenLoadingPreview() {
 
     ForviaChallengeTheme {
         HomeScreen(
-            uiState = uiState
+            uiState = uiState,
+            onCardClick = {}
         ) {}
     }
 }
@@ -101,7 +96,8 @@ fun HomeScreenSuccessPreview() {
 
     ForviaChallengeTheme {
         HomeScreen(
-            uiState = uiState
+            uiState = uiState,
+            onCardClick = {}
         ) {}
     }
 }

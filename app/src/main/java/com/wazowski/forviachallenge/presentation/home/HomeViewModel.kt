@@ -56,6 +56,7 @@ class HomeViewModel @Inject constructor(
                 is Resource.Success -> {
                     result.data?.collect { apps ->
                         _allApps.update { apps }
+                        _uiState.value = HomeUiState.Success(allApps = apps)
                     }
                 }
 
@@ -104,12 +105,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getAppsList(isInDebugMode: Boolean = false) {
+    fun getAppsList(isInDebugMode: Boolean = false, limit: Int = 30) {
         viewModelScope.launch {
             when (val result = forviaApiRepository.getAllApps(
                 offset = if (isInDebugMode) Random.nextInt(
                     0, 60001
-                ) else 0
+                ) else 0,
+                limit = limit
             )) {
                 is Resource.Success -> {
                     result.data?.let { apps ->
