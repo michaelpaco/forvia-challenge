@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.*
 import com.wazowski.forviachallenge.common.*
 import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
+import com.wazowski.forviachallenge.common.Constants.POPULAR_APPS_TITLE
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.theme.*
 
@@ -46,7 +47,7 @@ fun AppListRowWithBackground(
                 .align(Alignment.BottomStart)
                 .padding(
                     vertical = PADDING_XL.dp
-                ), title = "Popular"
+                ), title = POPULAR_APPS_TITLE
         ) { app ->
             content(app)
         }
