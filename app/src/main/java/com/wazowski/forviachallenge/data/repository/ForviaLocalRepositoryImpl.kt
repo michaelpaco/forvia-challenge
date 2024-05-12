@@ -11,10 +11,10 @@ class ForviaLocalRepositoryImpl @Inject constructor(
     private val forviaAppDao: ForviaAppDao
 ) : ForviaLocalRepository {
 
-    override suspend fun getAllApps(): Resource<Flow<List<ForviaApp>>> {
+    override suspend fun getAllApps(limit: Int): Resource<Flow<List<ForviaApp>>> {
         return try {
             Resource.Success(
-                data = forviaAppDao.getAll()
+                data = forviaAppDao.getAll(limit)
             )
         } catch (e: Exception) {
             e.printStackTrace()

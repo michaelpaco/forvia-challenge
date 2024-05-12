@@ -14,4 +14,8 @@ object Constants {
     const val PADDING_L = 24
     const val PADDING_XL = 32
     const val PADDING_XXL = 64
+
+    const val SEE_MORE_FETCH_ALL_LIMIT = 200
+    const val FETCH_ALL_LIMIT = 30
+    const val POPULAR_APPS_TITLE = "Popular"
 }

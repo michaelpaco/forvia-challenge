@@ -10,10 +10,11 @@ import javax.inject.Inject
 class ForviaApiRepositoryImpl @Inject constructor(
     private val api: ForviaApi
 ) : ForviaApiRepository {
-    override suspend fun getAllApps(offset: Int): Resource<List<ForviaApp>> {
+    override suspend fun getAllApps(offset: Int, limit: Int): Resource<List<ForviaApp>> {
         return try {
             val appList = api.getAppsList(
-                offset = offset
+                offset = offset,
+                limit = limit
             ).datasets.toForviaAppList()
             Resource.Success(
                 data = appList

@@ -6,8 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ForviaAppDao {
-    @Query("SELECT * FROM apps")
-    fun getAll(): Flow<List<ForviaApp>>
+    @Query("SELECT * FROM apps LIMIT :limit")
+    fun getAll(limit: Int): Flow<List<ForviaApp>>
 
     @Query("SELECT * FROM apps where id = :appId")
     fun getById(appId: Int): ForviaApp
