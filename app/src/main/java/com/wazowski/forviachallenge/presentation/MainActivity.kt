@@ -26,6 +26,7 @@ import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.SHORT_ANIMATION_DURATION
 import com.wazowski.forviachallenge.presentation.details.*
 import com.wazowski.forviachallenge.presentation.home.*
+import com.wazowski.forviachallenge.presentation.seemore.*
 import com.wazowski.forviachallenge.presentation.theme.ForviaChallengeTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
@@ -37,6 +38,7 @@ class MainActivity : ComponentActivity() {
     private val mainViewModel: MainViewModel by viewModels()
     private val homeViewModel: HomeViewModel by viewModels()
     private val detailsViewModel: DetailsViewModel by viewModels()
+    private val seeMoreViewModel: SeeMoreViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +71,7 @@ class MainActivity : ComponentActivity() {
 
                 val homeUiState = homeViewModel.uiState.collectAsState()
                 val detailsUiState = detailsViewModel.uiState.collectAsState()
+                val seeMoreUiState = seeMoreViewModel.uiState.collectAsState()
                 val isConnected by mainViewModel.isConnected.collectAsState()
 
                 val isHomeRoute by remember {
@@ -111,9 +114,11 @@ class MainActivity : ComponentActivity() {
                                     )
                                 )
                             }) {
-                                HomeScreen(uiState = homeUiState) { appId ->
+                                HomeScreen(uiState = homeUiState, onCardClick = { appId ->
                                     navController.navigate("app/$appId")
-                                }
+                                }, onSeeMoreClick = {
+                                    navController.navigate("see_more")
+                                })
                             }
                             composable(
                                 route = "app/{id}",
@@ -143,6 +148,33 @@ class MainActivity : ComponentActivity() {
 
                                 DetailsScreen(uiState = detailsUiState, onBackPressed = {
                                     navController.popBackStack()
+                                })
+                            }
+                            composable(
+                                route = "see_more",
+                                enterTransition = {
+                                    slideIntoContainer(
+                                        AnimatedContentTransitionScope.SlideDirection.Start,
+                                        tween(MEDIUM_ANIMATION_DURATION)
+                                    )
+                                },
+                                popEnterTransition = {
+                                    fadeIn(tween(MEDIUM_ANIMATION_DURATION))
+                                },
+                                popExitTransition = {
+                                    slideOutOfContainer(
+                                        AnimatedContentTransitionScope.SlideDirection.End,
+                                        tween(SHORT_ANIMATION_DURATION)
+                                    )
+                                },
+                            ) {
+                                SeeMoreScreen(uiState = seeMoreUiState, onCardClick = { appId ->
+                                    navController.navigate("app/$appId")
+                                }, onBackPressed = {
+                                    navController.popBackStack()
+                                }, onFetchMoreApps = {
+                                    if (!isConnected) return@SeeMoreScreen
+                                    seeMoreViewModel.fetchMoreAllApps()
                                 })
                             }
                         }
@@ -188,7 +220,8 @@ class MainActivity : ComponentActivity() {
                     if (!isConnected) Icon(
                         modifier = Modifier.padding(end = PADDING_M.dp),
                         imageVector = Icons.Filled.WifiOff,
-                        contentDescription = "No connection"
+                        contentDescription = Icons.Filled.WifiOff.name,
+                        tint = Color.White
                     )
                 } else {
                     IconButton(onClick = {
