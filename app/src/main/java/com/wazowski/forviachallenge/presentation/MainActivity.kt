@@ -63,20 +63,12 @@ class MainActivity : ComponentActivity() {
                 }
 
                 val navController = rememberNavController()
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
 
                 val snackbarHostState = remember { SnackbarHostState() }
 
                 val scope = rememberCoroutineScope()
 
-                val homeUiState = homeViewModel.uiState.collectAsState()
-                val detailsUiState = detailsViewModel.uiState.collectAsState()
-                val seeMoreUiState = seeMoreViewModel.uiState.collectAsState()
                 val isConnected by mainViewModel.isConnected.collectAsState()
-
-                val isHomeRoute by remember {
-                    derivedStateOf { navBackStackEntry?.destination?.route == "home" }
-                }
 
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
@@ -84,6 +76,11 @@ class MainActivity : ComponentActivity() {
                     Scaffold(snackbarHost = {
                         SnackbarHost(hostState = snackbarHostState)
                     }, topBar = {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val isHomeRoute by remember {
+                            derivedStateOf { navBackStackEntry?.destination?.route == "home" }
+                        }
+
                         AnimatedVisibility(
                             visible = isHomeRoute,
                             enter = fadeIn(tween(LONG_ANIMATION_DURATION)),
@@ -114,6 +111,8 @@ class MainActivity : ComponentActivity() {
                                     )
                                 )
                             }) {
+                                val homeUiState = homeViewModel.uiState.collectAsState()
+
                                 HomeScreen(uiState = homeUiState, onCardClick = { appId ->
                                     navController.navigate("app/$appId")
                                 }, onSeeMoreClick = {
@@ -131,18 +130,26 @@ class MainActivity : ComponentActivity() {
                                         tween(MEDIUM_ANIMATION_DURATION)
                                     )
                                 },
+                                exitTransition = {
+                                    fadeOut(tween(SHORT_ANIMATION_DURATION))
+                                },
+                                popEnterTransition = {
+                                    fadeIn(tween(SHORT_ANIMATION_DURATION))
+                                },
                                 popExitTransition = {
                                     slideOutOfContainer(
                                         AnimatedContentTransitionScope.SlideDirection.End,
-                                        tween(SHORT_ANIMATION_DURATION)
+                                        tween(MEDIUM_ANIMATION_DURATION)
                                     )
                                 },
                             ) { entry ->
+                                val detailsUiState = detailsViewModel.uiState.collectAsState()
+
                                 val id = entry.arguments?.getInt("id")
 
                                 id?.let {
                                     scope.launch {
-                                        detailsViewModel.getAppById(appId = id)
+                                        detailsViewModel.onNavigate(appId = id)
                                     }
                                 }
 
@@ -170,6 +177,8 @@ class MainActivity : ComponentActivity() {
                                     )
                                 },
                             ) {
+                                val seeMoreUiState = seeMoreViewModel.uiState.collectAsState()
+
                                 SeeMoreScreen(uiState = seeMoreUiState, onCardClick = { appId ->
                                     navController.navigate("app/$appId")
                                 }, onBackPressed = {

@@ -45,7 +45,9 @@ class DetailsViewModel @Inject constructor(
             when (val result = forviaLocalRepository.getAppsBySimilarRating(givenRating)) {
                 is Resource.Success -> {
                     result.data?.collect { apps ->
-                        _relatedApps.update { apps }
+                        _relatedApps.update {
+                            apps.filter { app -> app.id != _app.value?.id }.shuffled().take(10)
+                        }
                     }
                 }
 
@@ -58,20 +60,33 @@ class DetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getAppById(appId: Int) = withContext(Dispatchers.IO) {
+    private suspend fun getAppById(appId: Int) = withContext(Dispatchers.IO) {
         _uiState.value = DetailsUiState.Loading
         when (val result = forviaLocalRepository.getAppById(appId = appId)) {
             is Resource.Success -> {
                 result.data?.let { app ->
                     _app.update { app }
-                    _uiState.value = DetailsUiState.Success(app = app)
                     collectRelatedApps(givenRating = app.rating)
+                    delay(500L)
+                    _uiState.value = DetailsUiState.Success(app = app)
+
                 }
             }
 
             is Resource.Error -> {
                 _uiState.value = DetailsUiState.Error(message = result.message ?: "")
             }
+        }
+    }
+
+    fun onNavigate(appId: Int) {
+        if (appId == _app.value?.id) return
+
+        _relatedApps.value = null
+        _app.value = null
+
+        viewModelScope.launch {
+            getAppById(appId)
         }
     }
 }
