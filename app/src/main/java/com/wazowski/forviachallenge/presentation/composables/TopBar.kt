@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.Constants
+import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.presentation.theme.LocalCustomPalette
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,12 +22,13 @@ fun TopBar(onBackPressed: () -> Unit) {
         navigationIcon = {
             FilledTonalIconButton(
                 onClick = onBackPressed,
-                modifier = Modifier.size(44.dp),
+                modifier = Modifier.size(44.dp).padding(top = PADDING_XS.dp),
                 colors = IconButtonDefaults.iconButtonColors(containerColor = LocalCustomPalette.current.metadataBackgroundColor)
             ) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
+                    tint = LocalCustomPalette.current.metadataColor
                 )
             }
         })

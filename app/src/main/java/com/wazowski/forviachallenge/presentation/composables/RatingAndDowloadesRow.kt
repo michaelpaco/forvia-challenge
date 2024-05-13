@@ -11,6 +11,7 @@ import androidx.compose.ui.*
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.wazowski.forviachallenge.common.*
+import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
 import com.wazowski.forviachallenge.presentation.theme.*
 
@@ -77,8 +78,8 @@ fun RatingAndDownloadsRow(
 @Composable
 fun RatingAndDownloadsRowPreview() {
     ForviaChallengeTheme {
-        Surface(modifier = Modifier.width(112.dp)) {
-            RatingAndDownloadsRow(rating = 4.09f, downloads = 8)
+        Surface(modifier = Modifier.width(112.dp).padding(horizontal = PADDING_M.dp)) {
+            RatingAndDownloadsRow(rating = 3.48f, downloads = 183000000)
         }
     }
 }

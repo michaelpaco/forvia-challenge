@@ -53,7 +53,7 @@ fun RelatedAppElevatedCard(app: ForviaApp, onClick: (Int) -> Unit) {
                     .padding(
                         vertical = PADDING_XS.dp
                     )
-                    .width(92.dp), verticalArrangement = Arrangement.SpaceBetween
+                    .width(96.dp), verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = app.name,

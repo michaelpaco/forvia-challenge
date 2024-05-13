@@ -127,14 +127,14 @@ class MainActivity : ComponentActivity() {
                                 enterTransition = {
                                     slideIntoContainer(
                                         AnimatedContentTransitionScope.SlideDirection.Start,
-                                        tween(MEDIUM_ANIMATION_DURATION)
+                                        tween(SHORT_ANIMATION_DURATION)
                                     )
                                 },
                                 exitTransition = {
-                                    fadeOut(tween(SHORT_ANIMATION_DURATION))
+                                    fadeOut(tween(LONG_ANIMATION_DURATION, easing = EaseIn))
                                 },
                                 popEnterTransition = {
-                                    fadeIn(tween(SHORT_ANIMATION_DURATION))
+                                    fadeIn(tween(LONG_ANIMATION_DURATION, easing = EaseIn))
                                 },
                                 popExitTransition = {
                                     slideOutOfContainer(
@@ -144,17 +144,18 @@ class MainActivity : ComponentActivity() {
                                 },
                             ) { entry ->
                                 val detailsUiState = detailsViewModel.uiState.collectAsState()
-
                                 val id = entry.arguments?.getInt("id")
 
-                                id?.let {
-                                    scope.launch {
+                                LaunchedEffect(key1 = id) {
+                                    id?.let {
                                         detailsViewModel.onNavigate(appId = id)
                                     }
                                 }
 
                                 DetailsScreen(uiState = detailsUiState, onCardClick = { appId ->
-                                    navController.navigate("app/$appId")
+                                    navController.navigate("app/$appId") {
+                                        launchSingleTop = true
+                                    }
                                 }, onBackPressed = {
                                     navController.popBackStack()
                                 })
