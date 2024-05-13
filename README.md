@@ -32,9 +32,9 @@ You can download the latest version of the APK file for immediate testing from t
 
 - [x] Display additional information about the selected app.
 - [x] Implement a "Download" button.
-- [] Show a dialog indicating download functionality is not available in demo mode when the "Download" button is clicked.
+- [X] Show a dialog indicating download functionality is not available in demo mode when the "Download" button is clicked.
 
-### Bonus Task - Notification
+### Bonus - Notification
 
 - [x] Implement logic to schedule and send notifications every 30 minutes.
 - [x] Ensure notifications are sent even when the app is in the background or foreground.
@@ -44,32 +44,9 @@ You can download the latest version of the APK file for immediate testing from t
 - [x] Implement caching mechanism to store fetched data locally.
 - [x] Modify the UI to display cached data when there's no internet connection.
 
-### Code Quality and Comments
-
-- [X] Write clear and concise code comments explaining complex logic, architectural choices, and major functions.
-- [x] Ensure the code follows best practices and is maintainable.
-
-### Documentation
-
-- [] Create a README.md file detailing the project, including setup instructions, project structure, and usage.
-- [] Mention any known bugs or issues.
-- [] Describe what improvements would be made if given more time.
-- [] Propose additional features to enhance the app further.
-
 ### Testing
 
-- [] Test the app thoroughly to ensure all features work as expected.
-- [] Perform both unit tests and UI tests to cover different aspects of the application.
-
-### APK Generation
-
-- [] Generate an APK file for immediate testing of the application.
-- [] Provide the APK file along with the source code in the repository.
-
-### Submission
-
-- [] Submit the project via GitHub, ensuring all code is well-commented and documented.
-- [] Include the APK file and any additional documentation required for evaluation.
+- [X] Perform both unit tests and UI tests to cover different aspects of the application.
 
 ## Tech stack
 
@@ -84,12 +61,29 @@ You can download the latest version of the APK file for immediate testing from t
 - DI: Hilt Android _(dependency injection framework)_.
 
 ## To improve in the future and known bugs
+1. **UI/UX Enhancements:**
+   - Have a proper image for the hero on the details page (portrait or 4:3 instead of landscape images).
+   - Consider using shimmering skeleton instead of spinner loaders on every single app for better UI/UX.
+   - Improve existing composes to reduce possible code duplications.
 
-- Have a proper image for the hero on the details page (portrait or 4:3 instead of landscape images).
-- Add screens for no result if the app by id is not found.
-- Consider using shimmering skeleton instead of spinner loaders on every single app for better UI/UX.
-- Improve error handling with proper error codes and user facing text
-- Resume download when the device has no internet connection but restores connection.
-- Differentiate between WiFi and mobile data connections for informing the user about data consumption during downloads.
-- Improve existing composes to reduce possible code duplications
+2. **Error Handling:**
+   - Add screens for no result if the app by id is not found.
+   - Improve error handling with proper error codes and user-facing text.
+   - Improve Resource class to handle error states in a more concise way.
 
+3. **Download Management:**
+   - Resume download when the device has no internet connection but restores connection.
+   - Differentiate between WiFi and mobile data connections for informing the user about data consumption during downloads.
+
+4. **Navigation:**
+   - Improve navigation with graphs and try the latest compose navigation with type safety args.
+   - Organize routes in a sealed class.
+
+5. **Localization:**
+   - Add localized strings for other languages to make the app accessible to a wider audience and improve user experience.
+  
+6. **Architecture:**
+   - Introduce UseCases to encapsulate business logic and improve separation of concerns in the MVVM architecture.
+  
+7. **Testing:**
+   - Test UI flows to ensure smooth user experience and identify any usability issues.
