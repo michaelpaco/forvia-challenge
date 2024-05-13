@@ -31,7 +31,6 @@ interface ForviaAppDao {
         FROM apps 
         WHERE ABS(rating - :givenRating) <= :threshold
         ORDER BY ABS(rating - :givenRating) ASC
-        LIMIT 3
         """
     )
     fun getAppsBySimilarRating(givenRating: Float, threshold: Float = 0.5f): Flow<List<ForviaApp>>

@@ -1,9 +1,7 @@
 package com.wazowski.forviachallenge.presentation.composables
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
@@ -35,7 +33,6 @@ fun RelatedAppsListRowWithBackground(
             .drawWithContent {
                 val cornerRadius = CornerRadius(50f, 50f)
                 val path = Path().apply {
-                    Log.d("size", "$size")
                     addRoundRect(
                         RoundRect(
                             rect = Rect(
