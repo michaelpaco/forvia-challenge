@@ -64,7 +64,7 @@ fun AppListElevatedCard(app: ForviaApp, onClick: (Int) -> Unit) {
                 RatingAndDownloadsRow(
                     rating = app.rating,
                     downloads = app.downloads,
-                    iconSize = IconSize.LARGE
+                    iconSize = IconSize.MEDIUM
                 )
             }
         }
