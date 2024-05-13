@@ -65,6 +65,7 @@ You can download the latest version of the APK file for immediate testing from t
    - Have a proper image for the hero on the details page (portrait or 4:3 instead of landscape images).
    - Consider using shimmering skeleton instead of spinner loaders on every single app for better UI/UX.
    - Improve existing composes to reduce possible code duplications.
+   - Animations and page transitions aren't seamless yet.
 
 2. **Error Handling:**
    - Add screens for no result if the app by id is not found.
