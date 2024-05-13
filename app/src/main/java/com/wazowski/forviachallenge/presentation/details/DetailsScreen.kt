@@ -2,6 +2,7 @@ package com.wazowski.forviachallenge.presentation.details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.draw.*
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -26,7 +28,10 @@ import com.wazowski.forviachallenge.common.Constants.MAX_STARS
 import com.wazowski.forviachallenge.common.Constants.PADDING_L
 import com.wazowski.forviachallenge.common.Constants.PADDING_M
 import com.wazowski.forviachallenge.common.Constants.PADDING_S
+import com.wazowski.forviachallenge.common.Constants.PADDING_SM
+import com.wazowski.forviachallenge.common.Constants.PADDING_XL
 import com.wazowski.forviachallenge.common.Constants.PADDING_XS
+import com.wazowski.forviachallenge.common.Constants.PADDING_XXL
 import com.wazowski.forviachallenge.domain.model.ForviaApp
 import com.wazowski.forviachallenge.presentation.*
 import com.wazowski.forviachallenge.presentation.composables.*
@@ -54,12 +59,12 @@ fun DetailsScreen(
                         .background(
                             color = LocalCustomPalette.current.listBackground
                         )
+                        .verticalScroll(state = rememberScrollState())
                 ) {
                     Column(
                         modifier = Modifier
                             .background(
-                                color = Color.Transparent,
-                                shape = RoundedCornerShape(24.dp)
+                                color = Color.Transparent
                             )
                     ) {
                         HeroImage(imageUrl = state.app.graphic)
@@ -68,8 +73,7 @@ fun DetailsScreen(
                             modifier = Modifier
                                 .offset(y = (-92).dp)
                                 .background(
-                                    color = Color.Transparent,
-                                    shape = RoundedCornerShape(24.dp)
+                                    color = Color.Transparent
                                 )
                         ) {
                             AppIconRow(icon = state.app.icon)
@@ -93,7 +97,8 @@ fun DetailsScreen(
                                 ExtendedFloatingActionButton(
                                     text = {
                                         Text(
-                                            text = stringResource(R.string.detail_screen_download_button), fontWeight = FontWeight.Bold
+                                            text = stringResource(R.string.detail_screen_download_button),
+                                            fontWeight = FontWeight.Bold
                                         )
                                     },
                                     icon = {
@@ -107,7 +112,7 @@ fun DetailsScreen(
                                     contentColor = Color.LightGray,
                                     modifier = Modifier
                                         .fillMaxWidth(0.8f)
-                                        .padding(vertical = PADDING_L.dp)
+                                        .padding(top = PADDING_XL.dp, bottom = PADDING_XL.dp)
                                 )
                             }
 
