@@ -21,7 +21,7 @@ class DetailsViewModel @Inject constructor(
         _uiState, _relatedApps, _app
     ) { uiState, relatedApps, app ->
         when (uiState) {
-            is DetailsUiState.Success -> {
+            is DetailsUiState.Loading -> {
                 if (relatedApps == null || app == null) DetailsUiState.Loading
                 else DetailsUiState.Success(app = app, relatedApps = relatedApps)
             }
@@ -31,7 +31,7 @@ class DetailsViewModel @Inject constructor(
             }
 
             else -> {
-                DetailsUiState.Loading
+                DetailsUiState.Empty
             }
         }
     }.stateIn(
@@ -40,11 +40,12 @@ class DetailsViewModel @Inject constructor(
         initialValue = DetailsUiState.Loading
     )
 
-    private fun collectRelatedApps(givenRating: Float) {
+    private fun collectRelatedApps(app: ForviaApp) {
         viewModelScope.launch {
-            when (val result = forviaLocalRepository.getAppsBySimilarRating(givenRating)) {
+            when (val result = forviaLocalRepository.getAppsBySimilarRating(app.rating)) {
                 is Resource.Success -> {
                     result.data?.collect { apps ->
+                        _app.update { app }
                         _relatedApps.update {
                             apps.filter { app -> app.id != _app.value?.id }.shuffled().take(10)
                         }
@@ -61,15 +62,10 @@ class DetailsViewModel @Inject constructor(
     }
 
     private suspend fun getAppById(appId: Int) = withContext(Dispatchers.IO) {
-        _uiState.value = DetailsUiState.Loading
         when (val result = forviaLocalRepository.getAppById(appId = appId)) {
             is Resource.Success -> {
                 result.data?.let { app ->
-                    _app.update { app }
-                    collectRelatedApps(givenRating = app.rating)
-                    delay(800L)
-                    _uiState.value = DetailsUiState.Success(app = app)
-
+                    collectRelatedApps(app = app)
                 }
             }
 
@@ -81,6 +77,8 @@ class DetailsViewModel @Inject constructor(
 
     fun onNavigate(appId: Int) {
         if (appId == _app.value?.id) return
+
+        _uiState.value = DetailsUiState.Loading
 
         _relatedApps.value = null
         _app.value = null
