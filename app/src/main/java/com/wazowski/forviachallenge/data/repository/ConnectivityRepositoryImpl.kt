@@ -1,13 +1,10 @@
-package com.wazowski.forviachallenge.domain.repository
+package com.wazowski.forviachallenge.data.repository
 
 import android.content.Context
 import android.net.ConnectivityManager
+import com.wazowski.forviachallenge.domain.repository.ConnectivityRepository
 import kotlinx.coroutines.flow.*
 import javax.inject.Inject
-
-interface ConnectivityRepository {
-    val isConnected: StateFlow<Boolean>
-}
 
 class ConnectivityRepositoryImpl @Inject constructor(context: Context) : ConnectivityRepository {
     private val connectivityManager =
