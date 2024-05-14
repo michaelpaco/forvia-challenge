@@ -11,7 +11,7 @@ scheduling, and code quality maintenance.
 
 You can download the latest version of the APK file for immediate testing from the following:
 
-[Download APK](https://example.com/path/to/apk/file)
+[Download APK](https://github.com/michaelpaco/forvia-challenge/blob/main/app/dist/forvia_challenge.apk)
 
 ## Task list
 
