@@ -20,18 +20,14 @@ class ForviaNotificationWorker(
         fun schedule(appContext: Context) {
             val currentTime = Calendar.getInstance()
 
-            /*
-            *   Get time for now with 0'ed
-            * */
             val targetTime = Calendar.getInstance().apply {
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
+                add(Calendar.MINUTE, 5) // Add 5 minutes to the current time
             }
 
             // Schedule next notification to 5 minutes after first app initialization
+            // If the target time is in the past, move it to the next occurrence
             if (targetTime.before(currentTime)) {
-                val currentTimeMinutes = currentTime.get(Calendar.MINUTE)
-                targetTime.add(Calendar.MINUTE, currentTimeMinutes + 15)
+                targetTime.add(Calendar.MINUTE, 30 - (currentTime.get(Calendar.MINUTE) % 30))
             }
 
             val initialDelayMillis = targetTime.timeInMillis - System.currentTimeMillis()
@@ -54,8 +50,8 @@ class ForviaNotificationWorker(
             val formattedTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
                 nextScheduledTime.time
             )
-            Log.d(REMINDER_TAG, "Next scheduled work at: $formattedTime")
-            Log.d(REMINDER_TAG, "Scheduled periodic work with tag: $REMINDER_TAG")
+            Log.i(REMINDER_TAG, "Next scheduled work at: $formattedTime")
+            Log.i(REMINDER_TAG, "Scheduled periodic work with tag: $REMINDER_TAG")
         }
     }
 }

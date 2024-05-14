@@ -44,6 +44,7 @@ You can download the latest version of the APK file for immediate testing from t
 
 - [x] Implement logic to schedule and send notifications every 30 minutes.
 - [x] Ensure notifications are sent even when the app is in the background or foreground.
+- [x] First notification is sent 5 minutes after opening the app for the first time
 
 ### Offline Support
 
@@ -80,6 +81,7 @@ You can download the latest version of the APK file for immediate testing from t
     - Add screens for no result if the app by id is not found.
     - Improve error handling with proper error codes and user-facing text.
     - Improve Resource class to handle error states in a more concise way.
+    - Collect logs for analytics and proper bug fixing before releasing.
 
 3. **Download Management:**
     - Resume download when the device has no internet connection but restores connection.
