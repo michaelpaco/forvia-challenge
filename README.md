@@ -1,4 +1,4 @@
-# Todo List for Aptoide Android Application
+# Forvia Challenge
 
 ## Project Overview
 
@@ -110,4 +110,5 @@ You can download the latest version of the APK file for immediate testing from t
       Rising in popularity, App of the day, etc
     - Filter apps by name, category and other criteria
     - Implement search functionality
+    - Implement paging for data fetching
 
